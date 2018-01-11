@@ -1,3 +1,5 @@
+[![Binder](http://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/tpaviot/pythonocc-binderhub/precompiled-conda)
+
 This projects provides a Dockerfile image that can be run from a binderhub jupyter notebook. You can run pythonocc online, just following this link:
 
 insert image
