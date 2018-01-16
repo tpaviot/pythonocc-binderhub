@@ -1,15 +1,35 @@
-[![Binder](http://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/tpaviot/pythonocc-binderhub/precompiled-conda)
+This projects provides a Dockerfile image that can be run from a binderhub jupyter notebook. Just click the button below to launch the serer and test pythonocc within a jupyter notebook.
 
-This projects provides a Dockerfile image that can be run from a binderhub jupyter notebook. You can run pythonocc online, just following this link:
+[![Binder](http://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/tpaviot/pythonocc-binderhub/master)
 
-insert image
+This docker file is based on the popular jupyter/scipy (see https://hub.docker.com/r/jupyter/scipy-notebook/) notebook that provides:
 
-insert both links
+* Jupyter Notebook 5.2.x
 
-There are 3 branches
+* Conda Python 3.x environment
 
-* the master branch contains this README file, including a link to the binderhub jupyter notebook
+* pandas, matplotlib, scipy, seaborn, scikit-learn, scikit-image, sympy, cython, patsy, statsmodel, cloudpickle, dill, numba, bokeh, vincent, beautifulsoup, xlrd pre-installed
 
-* the build-from-scratch branch contains a Dockerfile which downloads each required dependency source code (oce/smesh/pythonocc) and performs compilation of everything ;
+* Unprivileged user jovyan (uid=1000, configurable, see options) in group users (gid=100) with ownership over /home/jovyan and /opt/conda
 
-* the precompiled-conda uses precompiled binary files for oce and smesh. Only pythonocc-core is compiled from scratch.
+* tini as the container entrypoint and start-notebook.sh as the default command
+
+* A start-singleuser.sh script useful for running a single-user instance of the Notebook server, as required by JupyterHub
+
+* A start.sh script useful for running alternative commands in the container (e.g. ipython, jupyter kernelgateway, jupyter lab)
+
+* Options for HTTPS, password auth, and passwordless sudo
+
+Moreover, the pythonocc-binderhub image provides additional packages:
+
+* oce-0.18.2
+
+* smesh-6.7.5
+
+* latest pythonocc-core dev master branch
+
+* latest pythreejs dev master branch
+
+* gmsh-3.0.6
+
+Check the [![Binderhub poject](https://github.com/jupyterhub/binderhub)] to learn more about docker/git/jupyter.
