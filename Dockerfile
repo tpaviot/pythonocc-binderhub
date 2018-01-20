@@ -1,4 +1,4 @@
-FROM jupyter/scipy-notebook:400c69639ea5
+FROM jupyter/scipy-notebook:27ba57364579
 
 MAINTAINER Thomas Paviot <tpaviot@gmail.com>
 
