@@ -121,6 +121,7 @@ RUN python core_wrapper_features_unittest.py
 ##############################
 WORKDIR /opt/build/pythonocc-core/examples/jupyter_notebooks
 RUN cp *.ipynb /home/jovyan/work
+RUN cp -r /opt/build/pythonocc-core/examples/models /home/jovyan/work
 
 #############
 # pythreejs #
