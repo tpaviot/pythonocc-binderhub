@@ -35,6 +35,7 @@ WORKDIR /opt/build/oce/build
 RUN git checkout OCE-0.18.2
 
 RUN cmake -G Ninja \
+ -DCMAKE_BUILD_TYPE=Release \
  -DOCE_TESTING:BOOL=OFF \
  -DOCE_BUILD_SHARED_LIB:BOOL=ON \
  -DOCE_VISUALISATION:BOOL=ON \
@@ -62,6 +63,7 @@ WORKDIR /opt/build/smesh/build
 RUN git checkout 6.7.5
 
 RUN cmake -G Ninja \
+ -CMAKE_BUILD_TYPE=Release \
  -DSMESH_TESTING:BOOL=OFF \
  -DOCE_INCLUDE_PATH=/opt/build/install/oce/include/oce \
  -DOCE_LIB_PATH=/opt/build/install/oce/lib \
@@ -84,6 +86,7 @@ RUN git checkout gmsh_3_0_6
 WORKDIR /opt/build/gmsh/build
 
 RUN cmake -G Ninja \
+ -DCMAKE_BUilD_TYPE=Release \
  -DENABLE_OCC=ON \
  -DENABLE_OCC_CAF=ON \
  -DCMAKE_INSTALL_PREFIX=/opt/build/install/gmsh \
@@ -101,6 +104,7 @@ WORKDIR /opt/build/pythonocc-core/build
 RUN cmake -G Ninja \
  -DOCE_INCLUDE_PATH=/opt/build/install/oce/include/oce \
  -DOCE_LIB_PATH=/opt/build/install/oce/lib \
+ -DPYTHONOCC_BUILD=Release \
  -DPYTHONOCC_WRAP_OCAF=ON \
  -DPYTHONOCC_WRAP_SMESH=ON \
  -DSMESH_INCLUDE_PATH=/opt/build/install/smesh/include/smesh \
@@ -114,13 +118,12 @@ RUN ninja install
 #######################
 WORKDIR /opt/build/pythonocc-core/test
 RUN python core_wrapper_features_unittest.py
-#RUN python run_examples_as_tests.py
 
 ##############################
 # Install pythonocc examples #
 ##############################
 WORKDIR /opt/build/pythonocc-core/examples/jupyter_notebooks
-RUN cp *.ipynb /home/jovyan/work
+RUN cp *.ipynb /home/jovyan/work/examples
 RUN cp -r /opt/build/pythonocc-core/examples/models /home/jovyan/work
 
 #############
