@@ -63,7 +63,7 @@ WORKDIR /opt/build/smesh/build
 RUN git checkout 6.7.5
 
 RUN cmake -G Ninja \
- -CMAKE_BUILD_TYPE=Release \
+ -DCMAKE_BUILD_TYPE=Release \
  -DSMESH_TESTING:BOOL=OFF \
  -DOCE_INCLUDE_PATH=/opt/build/install/oce/include/oce \
  -DOCE_LIB_PATH=/opt/build/install/oce/lib \
