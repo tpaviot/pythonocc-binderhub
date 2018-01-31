@@ -4,7 +4,6 @@ MAINTAINER Thomas Paviot <tpaviot@gmail.com>
 
 USER root
 
-
 RUN apt-get update
 RUN apt-get install -y software-properties-common
 RUN add-apt-repository ppa:ubuntu-toolchain-r/test
@@ -122,6 +121,7 @@ RUN python core_wrapper_features_unittest.py
 ##############################
 # Install pythonocc examples #
 ##############################
+RUN mkdir /home/jovyan/work/examples
 WORKDIR /opt/build/pythonocc-core/examples/jupyter_notebooks
 RUN cp *.ipynb /home/jovyan/work/examples
 RUN cp -r /opt/build/pythonocc-core/examples/models /home/jovyan/work
