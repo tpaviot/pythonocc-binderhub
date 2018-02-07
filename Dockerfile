@@ -1,4 +1,4 @@
-FROM jupyter/scipy-notebook:27ba57364579
+FROM jupyter/scipy-notebook:c54800018c2c
 
 MAINTAINER Thomas Paviot <tpaviot@gmail.com>
 
@@ -19,9 +19,6 @@ ENV CC=gcc-7
 ######################
 # conda env creation #
 ######################
-#RUN conda config --set always_yes yes --set changeps1 no
-#RUN conda create -n pyocc_demo python=3.6
-#RUN /bin/bash -c "source activate pyocc_demo"
 RUN conda install -y -c conda-forge cmake=3.10.0 swig==3.0.12 ninja=1.8.2
 
 #######
@@ -98,6 +95,8 @@ RUN ninja install
 #############
 WORKDIR /opt/build
 RUN git clone https://github.com/tpaviot/pythonocc-core
+WORKDIR /opt/build/pythonocc-core
+RUN git submodule update --init --remote --recursive
 WORKDIR /opt/build/pythonocc-core/build
 
 RUN cmake -G Ninja \
@@ -122,9 +121,9 @@ RUN python core_wrapper_features_unittest.py
 # Install pythonocc examples #
 ##############################
 RUN mkdir /home/jovyan/work/examples
-WORKDIR /opt/build/pythonocc-core/examples/jupyter_notebooks
+WORKDIR /opt/build/pythonocc-core/demos/jupyter_notebooks
 RUN cp *.ipynb /home/jovyan/work/examples
-RUN cp -r /opt/build/pythonocc-core/examples/models /home/jovyan/work
+RUN cp -r /opt/build/pythonocc-core/demos/assets/models /home/jovyan/work
 
 #############
 # pythreejs #
