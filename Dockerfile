@@ -28,7 +28,7 @@ WORKDIR /opt/build
 RUN git clone https://github.com/tpaviot/oce
 RUN mkdir oce/build && mkdir oce/install
 WORKDIR /opt/build/oce/build
-RUN git checkout OCE-0.18.2
+RUN git checkout OCE-0.18.3
 
 RUN cmake -G Ninja \
  -DCMAKE_BUILD_TYPE=Release \
@@ -56,7 +56,7 @@ WORKDIR /opt/build
 RUN git clone https://github.com/tpaviot/smesh
 RUN mkdir smesh/build && mkdir smesh/install
 WORKDIR /opt/build/smesh/build
-RUN git checkout 6.7.5
+RUN git checkout 6.7.6
 
 RUN cmake -G Ninja \
  -DCMAKE_BUILD_TYPE=Release \
