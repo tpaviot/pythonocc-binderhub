@@ -1,4 +1,4 @@
-FROM jupyter/scipy-notebook:1145fb1198b2
+FROM jupyter/scipy-notebook:610bb8b938db
 
 MAINTAINER Thomas Paviot <tpaviot@gmail.com>
 
@@ -8,13 +8,13 @@ RUN apt-get update
 RUN apt-get install -y software-properties-common
 RUN add-apt-repository ppa:ubuntu-toolchain-r/test
 RUN apt-get update
-RUN apt-get install -y wget git build-essential libgl1-mesa-dev libfreetype6-dev libglu1-mesa-dev libzmq3-dev libsqlite3-dev libboost-all-dev libicu-dev python3-dev libgl2ps-dev libfreeimage-dev libtbb-dev g++-7 libopenblas-dev
+RUN apt-get install -y wget git build-essential libgl1-mesa-dev libfreetype6-dev libglu1-mesa-dev libzmq3-dev libsqlite3-dev libboost-all-dev libicu-dev python3-dev libgl2ps-dev libfreeimage-dev libtbb-dev g++-8 libopenblas-dev
 
 ######################
-# use gcc-7 compiler #
+# use gcc-8 compiler #
 ######################
-ENV CXX=g++-7
-ENV CC=gcc-7
+ENV CXX=g++-8
+ENV CC=gcc-8
 
 ######################
 # conda env creation #
