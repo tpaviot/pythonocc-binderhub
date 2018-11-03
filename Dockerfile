@@ -1,4 +1,4 @@
-FROM jupyter/scipy-notebook:610bb8b938db
+FROM jupyter/scipy-notebook:61d8aaedaeaf
 
 MAINTAINER Thomas Paviot <tpaviot@gmail.com>
 
@@ -123,7 +123,7 @@ RUN python core_wrapper_features_unittest.py
 RUN mkdir /home/jovyan/work/examples
 WORKDIR /opt/build/pythonocc-core/demos/jupyter_notebooks
 RUN cp *.ipynb /home/jovyan/work/examples
-RUN cp -r /opt/build/pythonocc-core/demos/assets/models /home/jovyan/work
+RUN cp -r /opt/build/pythonocc-core/demos/assets /home/jovyan/work
 
 #############
 # pythreejs #
