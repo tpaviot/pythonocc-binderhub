@@ -19,7 +19,7 @@ ENV CC=gcc-8
 ######################
 # conda env creation #
 ######################
-RUN conda install -y -c conda-forge cmake=3.10.0 swig==3.0.12 ninja=1.8.2
+RUN conda install -y -c conda-forge cmake=3.12.4 swig==3.0.12 ninja=1.8.2
 
 #######
 # OCE #
