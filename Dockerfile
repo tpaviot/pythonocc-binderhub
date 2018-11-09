@@ -132,7 +132,7 @@ RUN cp -r /opt/build/pythonocc-core/demos/assets /home/jovyan/work
 WORKDIR /opt/build
 RUN git clone https://github.com/jovyan/pythreejs
 WORKDIR /opt/build/pythreejs
-RUN git checkout 2.0.0
+RUN git checkout 2.0.2
 RUN chown -R jovyan .
 USER jovyan
 RUN /opt/conda/bin/pip install --user -e .
