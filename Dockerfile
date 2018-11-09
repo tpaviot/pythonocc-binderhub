@@ -143,6 +143,26 @@ USER root
 RUN jupyter nbextension install --py --symlink --sys-prefix pythreejs
 RUN jupyter nbextension enable pythreejs --py --sys-prefix
 
+
+################
+# IfcOpenShell #
+################
+WORKDIR /opt/build
+RUN git clone https://github.com/IfcOpenShell/IfcOpenShell
+WORKDIR IfcOpenShell/build
+
+RUN cmake -G Ninja \
+ -DCOLLADA_SUPPORT=Off \
+ -DBUILD_EXAMPLES=Off \
+ -DOCC_INCLUDE_DIR=/opt/build/install/oce/include/oce \
+ -DOCC_LIBRARY_DIR=/opt/build/install/oce/lib \
+ -DPYTHON_LIBRARY=/opt/conda/lib/libpython3.6m.so \
+ -DPYTHON_INCLUDE_DIR=/opt/conda/include/python3.6m \
+ -DPYTHON_EXECUTABLE=/opt/conda/bin/python \
+ ../cmake
+ 
+RUN ninja install
+
 #####################
 # back to user mode #
 #####################
