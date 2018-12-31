@@ -78,7 +78,7 @@ ENV CASROOT=/opt/build/install/oce
 WORKDIR /opt/build
 RUN git clone https://gitlab.onelab.info/gmsh/gmsh
 WORKDIR /opt/build/gmsh
-RUN git checkout gmsh_4_0_4
+RUN git checkout gmsh_4_0_7
 WORKDIR /opt/build/gmsh/build
 
 RUN cmake -G Ninja \
