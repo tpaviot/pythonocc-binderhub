@@ -117,19 +117,9 @@ RUN ninja install
 WORKDIR /opt/build/pythonocc-core/test
 RUN python core_wrapper_features_unittest.py
 
-##############################
-# Install pythonocc examples #
-##############################
-RUN git clone https://github.com/tpaviot/pythonocc-demos
-RUN mkdir /home/jovyan/work/examples
-WORKDIR /opt/build/pythonocc-demos/examples/jupyter_notebooks
-RUN cp *.ipynb /home/jovyan/work/examples
-RUN cp -r /opt/build/pythonocc-demos/examples/assets /home/jovyan/work
-
 #############
 # pythreejs #
 #############
-
 WORKDIR /opt/build
 RUN git clone https://github.com/jovyan/pythreejs
 WORKDIR /opt/build/pythreejs
@@ -163,6 +153,17 @@ RUN cmake -G Ninja \
  ../cmake
  
 RUN ninja install
+
+
+##############################
+# Install pythonocc examples #
+##############################
+WORKDIR /opt/build
+RUN git clone https://github.com/tpaviot/pythonocc-demos
+RUN mkdir /home/jovyan/work/examples
+WORKDIR /opt/build/pythonocc-demos/examples/jupyter_notebooks
+RUN cp *.ipynb /home/jovyan/work/examples
+RUN cp -r /opt/build/pythonocc-demos/examples/assets /home/jovyan/work
 
 #####################
 # back to user mode #
