@@ -162,9 +162,9 @@ RUN ninja install
 WORKDIR /opt/build
 RUN git clone https://github.com/tpaviot/pythonocc-demos
 RUN mkdir /home/jovyan/work/examples
-WORKDIR /opt/build/pythonocc-demos/examples/jupyter_notebooks
+WORKDIR /opt/build/pythonocc-demos/jupyter_notebooks
 RUN cp *.ipynb /home/jovyan/work/examples
-RUN cp -r /opt/build/pythonocc-demos/examples/assets /home/jovyan/work
+RUN cp -r /opt/build/pythonocc-demos/assets /home/jovyan/work
 
 #####################
 # back to user mode #
