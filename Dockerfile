@@ -141,7 +141,6 @@ RUN jupyter nbextension enable pythreejs --py --sys-prefix
 WORKDIR /opt/build
 RUN git clone https://github.com/IfcOpenShell/IfcOpenShell
 WORKDIR IfcOpenShell/build
-RUN git checkout v0.6.0a1
 
 RUN cmake -G Ninja \
  -DCOLLADA_SUPPORT=Off \
