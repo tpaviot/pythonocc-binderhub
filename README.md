@@ -28,8 +28,10 @@ Moreover, the pythonocc-binderhub image provides additional packages:
 
 * latest pythonocc-core dev master branch
 
-* latest pythreejs dev master branch
+* pythreejs-2.0.2
 
-* gmsh-3.0.6
+* latest ifcopenshell dev master branch
 
-Check the [![Binderhub poject](https://github.com/jupyterhub/binderhub)] to learn more about docker/git/jupyter.
+* gmsh-4.0.7
+
+Check the [![Binderhub project](https://github.com/jupyterhub/binderhub)] to learn more about docker/git/jupyter.

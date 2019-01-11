@@ -79,7 +79,7 @@ ENV CASROOT=/opt/build/install/oce
 WORKDIR /opt/build
 RUN git clone https://gitlab.onelab.info/gmsh/gmsh
 WORKDIR /opt/build/gmsh
-RUN git checkout gmsh_3_0_6
+RUN git checkout gmsh_4_0_7
 WORKDIR /opt/build/gmsh/build
 
 RUN cmake -G Ninja \
@@ -118,18 +118,9 @@ RUN ninja install
 WORKDIR /opt/build/pythonocc-core/test
 RUN python core_wrapper_features_unittest.py
 
-##############################
-# Install pythonocc examples #
-##############################
-RUN mkdir /home/jovyan/work/examples
-WORKDIR /opt/build/pythonocc-core/demos/jupyter_notebooks
-RUN cp *.ipynb /home/jovyan/work/examples
-RUN cp -r /opt/build/pythonocc-core/demos/assets /home/jovyan/work
-
 #############
 # pythreejs #
 #############
-
 WORKDIR /opt/build
 RUN git clone https://github.com/jovyan/pythreejs
 WORKDIR /opt/build/pythreejs
@@ -143,6 +134,37 @@ RUN npm run build:all
 USER root
 RUN jupyter nbextension install --py --symlink --sys-prefix pythreejs
 RUN jupyter nbextension enable pythreejs --py --sys-prefix
+
+
+################
+# IfcOpenShell #
+################
+WORKDIR /opt/build
+RUN git clone https://github.com/IfcOpenShell/IfcOpenShell
+WORKDIR IfcOpenShell/build
+
+RUN cmake -G Ninja \
+ -DCOLLADA_SUPPORT=Off \
+ -DBUILD_EXAMPLES=Off \
+ -DOCC_INCLUDE_DIR=/opt/build/install/oce/include/oce \
+ -DOCC_LIBRARY_DIR=/opt/build/install/oce/lib \
+ -DPYTHON_LIBRARY=/opt/conda/lib/libpython3.6m.so \
+ -DPYTHON_INCLUDE_DIR=/opt/conda/include/python3.6m \
+ -DPYTHON_EXECUTABLE=/opt/conda/bin/python \
+ ../cmake
+ 
+RUN ninja install
+
+
+##############################
+# Install pythonocc examples #
+##############################
+WORKDIR /opt/build
+RUN git clone https://github.com/tpaviot/pythonocc-demos
+RUN mkdir /home/jovyan/work/examples
+WORKDIR /opt/build/pythonocc-demos/jupyter_notebooks
+RUN cp *.ipynb /home/jovyan/work/examples
+RUN cp -r /opt/build/pythonocc-demos/assets /home/jovyan/work
 
 #####################
 # back to user mode #
