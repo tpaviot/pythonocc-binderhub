@@ -1,4 +1,4 @@
-# trigger buildd
+# trigger build
 FROM jupyter/scipy-notebook:61d8aaedaeaf
 
 MAINTAINER Thomas Paviot <tpaviot@gmail.com>
