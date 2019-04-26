@@ -1,3 +1,4 @@
+# trigger build
 FROM jupyter/scipy-notebook:61d8aaedaeaf
 
 MAINTAINER Thomas Paviot <tpaviot@gmail.com>
@@ -78,7 +79,7 @@ ENV CASROOT=/opt/build/install/oce
 WORKDIR /opt/build
 RUN git clone https://gitlab.onelab.info/gmsh/gmsh
 WORKDIR /opt/build/gmsh
-RUN git checkout gmsh_4_0_7
+RUN git checkout gmsh_4_3_0
 WORKDIR /opt/build/gmsh/build
 
 RUN cmake -G Ninja \
