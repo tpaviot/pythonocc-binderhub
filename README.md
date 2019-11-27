@@ -1,3 +1,6 @@
+A Docker image for testing pythonocc 0.18.2
+-------------------------------------------
+
 This projects provides a Dockerfile image that can be run from a binderhub jupyter notebook. Just click the button below to launch the serer and test pythonocc within a jupyter notebook.
 
 [![Binder](http://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/tpaviot/pythonocc-binderhub/master)

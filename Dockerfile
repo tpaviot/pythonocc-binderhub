@@ -97,6 +97,7 @@ RUN ninja install
 WORKDIR /opt/build
 RUN git clone https://github.com/tpaviot/pythonocc-core
 WORKDIR /opt/build/pythonocc-core
+RUN git checkout 0.18.2
 RUN git submodule update --init --remote --recursive
 WORKDIR /opt/build/pythonocc-core/build
 
