@@ -9,7 +9,7 @@ RUN apt-get update
 RUN apt-get install -y software-properties-common
 RUN add-apt-repository ppa:ubuntu-toolchain-r/test
 RUN apt-get update
-RUN apt-get install -y wget git build-essential libgl1-mesa-dev libfreetype6-dev libglu1-mesa-dev libzmq3-dev libsqlite3-dev libboost-all-dev libicu-dev python3-dev libgl2ps-dev libfreeimage-dev libtbb-dev g++-8 libopenblas-dev
+RUN apt-get install -y wget git build-essential libgl1-mesa-dev libfreetype6-dev libglu1-mesa-dev libzmq3-dev libsqlite3-dev libboost-all-dev libicu-dev python3-dev libgl2ps-dev libfreeimage-dev libtbb-dev g++-8 libblas-dev liblapack-dev
 
 ######################
 # use gcc-8 compiler #
@@ -79,7 +79,7 @@ ENV CASROOT=/opt/build/install/oce
 WORKDIR /opt/build
 RUN git clone https://gitlab.onelab.info/gmsh/gmsh
 WORKDIR /opt/build/gmsh
-RUN git checkout gmsh_4_0_7
+RUN git checkout gmsh_4_3_0
 WORKDIR /opt/build/gmsh/build
 
 RUN cmake -G Ninja \
