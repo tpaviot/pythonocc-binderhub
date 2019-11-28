@@ -8,7 +8,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update
 
-RUN apt-get install -y wget git build-essential libgl1-mesa-dev libfreetype6-dev libglu1-mesa-dev libzmq3-dev libsqlite3-dev libicu-dev python3-dev libgl2ps-dev libfreeimage-dev libtbb-dev ninja-build bison autotools-dev automake libpcre3 libpcre3-dev tcl8.5 tcl8.5-dev tk8.5 tk8.5-dev libxmu-dev libxi-dev libopenblas-dev
+RUN apt-get install -y wget git build-essential libgl1-mesa-dev libfreetype6-dev libglu1-mesa-dev libzmq3-dev libsqlite3-dev libicu-dev python3-dev libgl2ps-dev libfreeimage-dev libtbb-dev ninja-build bison autotools-dev automake libpcre3 libpcre3-dev tcl8.5 tcl8.5-dev tk8.5 tk8.5-dev libxmu-dev libxi-dev libopenblas-dev libboost-all-dev
 
 RUN dpkg-reconfigure --frontend noninteractive tzdata
 
@@ -68,7 +68,7 @@ RUN cmake -G Ninja \
  -DOCE_INCLUDE_PATH=/opt/build/occt740/include/opencascade \
  -DOCE_LIB_PATH=/opt/build/occt740/lib \
  -DSWIG_EXECUTABLE=/usr/local/bin/swig \
- -DPYTHONOCC_BUILD=Release \
+ -DPYTHONOCC_BUILD_TYPE=Release \
  -DPYTHONOCC_WRAP_OCAF=ON \
  -DPYTHONOCC_WRAP_SMESH=OFF \
  ..
@@ -81,7 +81,6 @@ RUN ninja install
 WORKDIR /opt/build/pythonocc-core/test
 RUN python core_wrapper_features_unittest.py
 
-
 ##############################
 # Install pythonocc examples #
 ##############################
@@ -90,7 +89,6 @@ RUN git clone https://github.com/tpaviot/pythonocc-demos
 WORKDIR /opt/build/pythonocc-demos
 RUN cp -r /opt/build/pythonocc-demos/assets /home/jovyan/work
 RUN cp -r /opt/build/pythonocc-demos/jupyter_notebooks /home/jovyan/work
-
 
 #############
 # pythreejs #
@@ -127,6 +125,25 @@ RUN cmake \
  ..
 
 RUN make -j3 && make install
+
+################
+# IfcOpenShell #
+################
+WORKDIR /opt/build
+RUN git clone https://github.com/IfcOpenShell/IfcOpenShell
+WORKDIR IfcOpenShell/build
+
+RUN cmake -G Ninja \
+ -DCOLLADA_SUPPORT=OFF \
+ -DBUILD_EXAMPLES=OFF \
+ -DOCC_INCLUDE_DIR=/opt/build/occt740/include/opencascade \
+ -DOCC_LIBRARY_DIR=/opt/build/occt740/lib \
+ -DPYTHON_LIBRARY=/opt/conda/lib/libpython3.7m.so \
+ -DPYTHON_INCLUDE_DIR=/opt/conda/include/python3.7m \
+ -DPYTHON_EXECUTABLE=/opt/conda/bin/python \
+ ../cmake
+ 
+RUN ninja install
 
 #####################
 # back to user mode #
