@@ -60,7 +60,6 @@ WORKDIR /opt/build
 RUN git clone https://github.com/tpaviot/pythonocc-core
 WORKDIR /opt/build/pythonocc-core
 RUN git submodule update --init --remote --recursive
-RUN git checkout review/occt7x-support
 WORKDIR /opt/build/pythonocc-core/build
 
 RUN cmake -G Ninja \
