@@ -60,6 +60,7 @@ WORKDIR /opt/build
 RUN git clone https://github.com/tpaviot/pythonocc-core
 WORKDIR /opt/build/pythonocc-core
 RUN git submodule update --init --remote --recursive
+RUN git checkout 7.4.0beta2
 WORKDIR /opt/build/pythonocc-core/build
 
 RUN cmake -G Ninja \
@@ -86,7 +87,7 @@ RUN python core_wrapper_features_unittest.py
 WORKDIR /opt/build/
 RUN git clone https://github.com/tpaviot/pythonocc-demos
 WORKDIR /opt/build/pythonocc-demos
-RUN git checkout 7.4.0beta
+RUN git checkout 7.4.0beta2
 RUN cp -r /opt/build/pythonocc-demos/assets /home/jovyan/work
 RUN cp -r /opt/build/pythonocc-demos/jupyter_notebooks /home/jovyan/work
 
