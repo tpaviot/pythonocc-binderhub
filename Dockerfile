@@ -8,19 +8,9 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update
 
-RUN apt-get install -y wget git build-essential libgl1-mesa-dev libfreetype6-dev libglu1-mesa-dev libzmq3-dev libsqlite3-dev libicu-dev python3-dev libgl2ps-dev libfreeimage-dev libtbb-dev ninja-build bison autotools-dev automake libpcre3 libpcre3-dev tcl8.5 tcl8.5-dev tk8.5 tk8.5-dev libxmu-dev libxi-dev libopenblas-dev libboost-all-dev
+RUN apt-get install -y wget git build-essential libgl1-mesa-dev libfreetype6-dev libglu1-mesa-dev libzmq3-dev libsqlite3-dev libicu-dev python3-dev libgl2ps-dev libfreeimage-dev libtbb-dev ninja-build bison autotools-dev automake libpcre3 libpcre3-dev tcl8.5 tcl8.5-dev tk8.5 tk8.5-dev libxmu-dev libxi-dev libopenblas-dev libboost-all-dev swig
 
 RUN dpkg-reconfigure --frontend noninteractive tzdata
-
-##############
-# Swig 4.0.1 #
-##############
-WORKDIR /opt/build
-RUN wget https://github.com/swig/swig/archive/rel-4.0.1.tar.gz -O swig-4.0.1.tar.gz
-RUN tar -zxvf swig-4.0.1.tar.gz
-WORKDIR /opt/build/swig-rel-4.0.1
-RUN ./autogen.sh && ./configure && make -j3 && make install
-RUN swig -version
 
 ################
 # CMake 3.15.5 #
@@ -67,7 +57,6 @@ WORKDIR /opt/build/pythonocc-core/build
 RUN cmake -G Ninja \
  -DOCE_INCLUDE_PATH=/opt/build/occt740/include/opencascade \
  -DOCE_LIB_PATH=/opt/build/occt740/lib \
- -DSWIG_EXECUTABLE=/usr/local/bin/swig \
  -DPYTHONOCC_BUILD_TYPE=Release \
  -DPYTHONOCC_WRAP_OCAF=ON \
  -DPYTHONOCC_WRAP_SMESH=OFF \
