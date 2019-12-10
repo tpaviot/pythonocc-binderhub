@@ -8,7 +8,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update
 
-RUN apt-get install -y wget git build-essential libgl1-mesa-dev libfreetype6-dev libglu1-mesa-dev libzmq3-dev libsqlite3-dev libicu-dev python3-dev libgl2ps-dev libfreeimage-dev libtbb-dev ninja-build bison autotools-dev automake libpcre3 libpcre3-dev tcl8.5 tcl8.5-dev tk8.5 tk8.5-dev libxmu-dev libxi-dev
+RUN apt-get install -y wget git build-essential libgl1-mesa-dev libfreetype6-dev libglu1-mesa-dev libzmq3-dev libsqlite3-dev libicu-dev python3-dev libgl2ps-dev libfreeimage-dev libtbb-dev ninja-build bison autotools-dev automake libpcre3 libpcre3-dev tcl8.5 tcl8.5-dev tk8.5 tk8.5-dev libxmu-dev libxi-dev libopenblas-dev
+
 RUN dpkg-reconfigure --frontend noninteractive tzdata
 
 ##############
@@ -87,7 +88,6 @@ RUN python core_wrapper_features_unittest.py
 WORKDIR /opt/build/
 RUN git clone https://github.com/tpaviot/pythonocc-demos
 WORKDIR /opt/build/pythonocc-demos
-RUN git checkout 7.4.0beta2
 RUN cp -r /opt/build/pythonocc-demos/assets /home/jovyan/work
 RUN cp -r /opt/build/pythonocc-demos/jupyter_notebooks /home/jovyan/work
 
@@ -108,6 +108,25 @@ RUN npm run build:all
 USER root
 RUN jupyter nbextension install --py --symlink --sys-prefix pythreejs
 RUN jupyter nbextension enable pythreejs --py --sys-prefix
+
+########
+# gmsh #
+########
+ENV CASROOT=/opt/build/occt740
+WORKDIR /opt/build
+RUN git clone https://gitlab.onelab.info/gmsh/gmsh
+WORKDIR /opt/build/gmsh
+RUN git checkout gmsh_4_4_1
+WORKDIR /opt/build/gmsh/build
+
+RUN cmake \
+ -DCMAKE_BUilD_TYPE=Release \
+ -DENABLE_OCC=ON \
+ -DENABLE_OCC_CAF=ON \
+ -DCMAKE_INSTALL_PREFIX=/usr/local/gmsh \
+ ..
+
+RUN make -j3 && make install
 
 #####################
 # back to user mode #
