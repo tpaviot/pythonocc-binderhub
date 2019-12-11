@@ -120,7 +120,10 @@ RUN make -j3 && make install
 ################
 WORKDIR /opt/build
 RUN git clone https://github.com/IfcOpenShell/IfcOpenShell
-WORKDIR IfcOpenShell/build
+WORKDIR /opt/build/IfcOpenShell
+RUN git submodule update --init --remote --recursive
+RUN git checkout v0.6.0
+WORKDIR /opt/build/IfcOpenShell/build
 
 RUN cmake -G Ninja \
  -DCOLLADA_SUPPORT=OFF \
