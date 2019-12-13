@@ -8,7 +8,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update
 
-RUN apt-get install -y wget git build-essential libgl1-mesa-dev libfreetype6-dev libglu1-mesa-dev libzmq3-dev libsqlite3-dev libicu-dev python3-dev libgl2ps-dev libfreeimage-dev libtbb-dev ninja-build bison autotools-dev automake libpcre3 libpcre3-dev tcl8.5 tcl8.5-dev tk8.5 tk8.5-dev libxmu-dev libxi-dev libopenblas-dev libboost-all-dev swig
+RUN apt-get install -y wget git build-essential libgl1-mesa-dev libfreetype6-dev libglu1-mesa-dev libzmq3-dev libsqlite3-dev libicu-dev python3-dev libgl2ps-dev libfreeimage-dev libtbb-dev ninja-build bison autotools-dev automake libpcre3 libpcre3-dev tcl8.5 tcl8.5-dev tk8.5 tk8.5-dev libxmu-dev libxi-dev libopenblas-dev libboost-all-dev swig libxml2-dev
 
 RUN dpkg-reconfigure --frontend noninteractive tzdata
 
@@ -120,13 +120,18 @@ RUN make -j3 && make install
 ################
 WORKDIR /opt/build
 RUN git clone https://github.com/IfcOpenShell/IfcOpenShell
-WORKDIR IfcOpenShell/build
+WORKDIR /opt/build/IfcOpenShell
+RUN git submodule update --init --remote --recursive
+RUN git checkout v0.6.0
+WORKDIR /opt/build/IfcOpenShell/build
 
 RUN cmake -G Ninja \
  -DCOLLADA_SUPPORT=OFF \
  -DBUILD_EXAMPLES=OFF \
  -DOCC_INCLUDE_DIR=/opt/build/occt740/include/opencascade \
  -DOCC_LIBRARY_DIR=/opt/build/occt740/lib \
+ -DLIBXML2_INCLUDE_DIR:PATH=/usr/include/libxml2 \
+ -DLIBXML2_LIBRARIES=xml2 \
  -DPYTHON_LIBRARY=/opt/conda/lib/libpython3.7m.so \
  -DPYTHON_INCLUDE_DIR=/opt/conda/include/python3.7m \
  -DPYTHON_EXECUTABLE=/opt/conda/bin/python \
