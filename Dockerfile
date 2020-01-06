@@ -51,7 +51,7 @@ WORKDIR /opt/build
 RUN git clone https://github.com/tpaviot/pythonocc-core
 WORKDIR /opt/build/pythonocc-core
 RUN git submodule update --init --remote --recursive
-RUN git checkout 7.4.0beta2
+RUN git checkout review/jupyter-fixes
 WORKDIR /opt/build/pythonocc-core/build
 
 RUN cmake -G Ninja \
