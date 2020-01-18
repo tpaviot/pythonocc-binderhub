@@ -6,6 +6,9 @@ USER root
 
 ENV DEBIAN_FRONTEND=noninteractive
 
+##############
+# apt update #
+##############
 RUN apt-get update
 
 RUN apt-get install -y wget git build-essential libgl1-mesa-dev libfreetype6-dev libglu1-mesa-dev libzmq3-dev libsqlite3-dev libicu-dev python3-dev libgl2ps-dev libfreeimage-dev libtbb-dev ninja-build bison autotools-dev automake libpcre3 libpcre3-dev tcl8.5 tcl8.5-dev tk8.5 tk8.5-dev libxmu-dev libxi-dev libopenblas-dev libboost-all-dev swig libxml2-dev
@@ -63,6 +66,11 @@ RUN cmake -G Ninja \
  ..
  
 RUN ninja install
+
+############
+# svgwrite #
+############
+RUN pip install svgwrite
 
 #######################
 # Run pythonocc tests #
