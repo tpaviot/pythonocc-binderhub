@@ -54,7 +54,6 @@ WORKDIR /opt/build
 RUN git clone https://github.com/tpaviot/pythonocc-core
 WORKDIR /opt/build/pythonocc-core
 RUN git submodule update --init --remote --recursive
-RUN git checkout review/jupyter-fixes
 WORKDIR /opt/build/pythonocc-core/build
 
 RUN cmake -G Ninja \
@@ -111,7 +110,7 @@ ENV CASROOT=/opt/build/occt740
 WORKDIR /opt/build
 RUN git clone https://gitlab.onelab.info/gmsh/gmsh
 WORKDIR /opt/build/gmsh
-RUN git checkout gmsh_4_5_1
+RUN git checkout gmsh_4_5_2
 WORKDIR /opt/build/gmsh/build
 
 RUN cmake \
@@ -127,7 +126,7 @@ RUN make -j3 && make install
 # IfcOpenShell #
 ################
 WORKDIR /opt/build
-RUN git clone https://github.com/IfcOpenShell/IfcOpenShell
+RUN git clone https://github.com/tpaviot/IfcOpenShell
 WORKDIR /opt/build/IfcOpenShell
 RUN git submodule update --init --remote --recursive
 RUN git checkout v0.6.0
