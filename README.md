@@ -1,5 +1,5 @@
-A Docker image for testing pythonocc 7.4.0beta
-----------------------------------------------
+A Docker image for testing pythonocc at mybinder.org
+----------------------------------------------------
 
 This projects provides a Dockerfile image that can be run from a binderhub jupyter notebook. Just click the button below to launch the serer and test pythonocc within a jupyter notebook.
 
@@ -23,16 +23,16 @@ This docker file is based on the popular jupyter/scipy (see https://hub.docker.c
 
 * Options for HTTPS, password auth, and passwordless sudo
 
-Moreover, the pythonocc-binderhub image provides additional packages:
+Moreover, the pythonocc-binderhub image provides the following additional packages:
 
 * opencascade-7.4.0
 
-* pythonocc-core 7.4.0beta
+* pythonocc-core 7.4.0
 
 * pythreejs-2.1.1
 
-* latest ifcopenshell dev master branch TODO
+* latest IfcOpenshell v0.6.0 dev branch
 
-* gmsh-4.0.7 TODO
+* gmsh-4.5.2
 
 Check the [![Binderhub project](https://github.com/jupyterhub/binderhub)] to learn more about docker/git/jupyter.
