@@ -6,6 +6,9 @@ USER root
 
 ENV DEBIAN_FRONTEND=noninteractive
 
+##############
+# apt update #
+##############
 RUN apt-get update
 
 RUN apt-get install -y wget git build-essential libgl1-mesa-dev libfreetype6-dev libglu1-mesa-dev libzmq3-dev libsqlite3-dev libicu-dev python3-dev libgl2ps-dev libfreeimage-dev libtbb-dev ninja-build bison autotools-dev automake libpcre3 libpcre3-dev tcl8.5 tcl8.5-dev tk8.5 tk8.5-dev libxmu-dev libxi-dev libopenblas-dev libboost-all-dev swig libxml2-dev
@@ -51,7 +54,6 @@ WORKDIR /opt/build
 RUN git clone https://github.com/tpaviot/pythonocc-core
 WORKDIR /opt/build/pythonocc-core
 RUN git submodule update --init --remote --recursive
-RUN git checkout 7.4.0beta2
 WORKDIR /opt/build/pythonocc-core/build
 
 RUN cmake -G Ninja \
@@ -63,6 +65,11 @@ RUN cmake -G Ninja \
  ..
  
 RUN ninja install
+
+############
+# svgwrite #
+############
+RUN pip install svgwrite
 
 #######################
 # Run pythonocc tests #
@@ -103,14 +110,14 @@ ENV CASROOT=/opt/build/occt740
 WORKDIR /opt/build
 RUN git clone https://gitlab.onelab.info/gmsh/gmsh
 WORKDIR /opt/build/gmsh
-RUN git checkout gmsh_4_4_1
+RUN git checkout gmsh_4_5_2
 WORKDIR /opt/build/gmsh/build
 
 RUN cmake \
  -DCMAKE_BUilD_TYPE=Release \
  -DENABLE_OCC=ON \
  -DENABLE_OCC_CAF=ON \
- -DCMAKE_INSTALL_PREFIX=/usr/local/gmsh \
+ -DCMAKE_INSTALL_PREFIX=/usr/local \
  ..
 
 RUN make -j3 && make install
@@ -119,7 +126,7 @@ RUN make -j3 && make install
 # IfcOpenShell #
 ################
 WORKDIR /opt/build
-RUN git clone https://github.com/IfcOpenShell/IfcOpenShell
+RUN git clone https://github.com/tpaviot/IfcOpenShell
 WORKDIR /opt/build/IfcOpenShell
 RUN git submodule update --init --remote --recursive
 RUN git checkout v0.6.0
