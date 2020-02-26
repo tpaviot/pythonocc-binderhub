@@ -37,6 +37,7 @@ WORKDIR /opt/build/opencascade-7.4.0/build
 RUN ls /usr/include
 RUN cmake -G Ninja \
  -DINSTALL_DIR=/opt/build/occt740 \
+ -DBUILD_RELEASE_DISABLE_EXCEPTIONS=OFF \
  ..
 
 RUN ninja install
@@ -53,15 +54,13 @@ RUN ls /opt/build/occt740/lib
 WORKDIR /opt/build
 RUN git clone https://github.com/tpaviot/pythonocc-core
 WORKDIR /opt/build/pythonocc-core
-RUN git submodule update --init --remote --recursive
+RUN git checkout 7.4.0
 WORKDIR /opt/build/pythonocc-core/build
 
 RUN cmake -G Ninja \
  -DOCE_INCLUDE_PATH=/opt/build/occt740/include/opencascade \
  -DOCE_LIB_PATH=/opt/build/occt740/lib \
  -DPYTHONOCC_BUILD_TYPE=Release \
- -DPYTHONOCC_WRAP_OCAF=ON \
- -DPYTHONOCC_WRAP_SMESH=OFF \
  ..
  
 RUN ninja install
@@ -110,7 +109,7 @@ ENV CASROOT=/opt/build/occt740
 WORKDIR /opt/build
 RUN git clone https://gitlab.onelab.info/gmsh/gmsh
 WORKDIR /opt/build/gmsh
-RUN git checkout gmsh_4_5_2
+RUN git checkout gmsh_4_5_3
 WORKDIR /opt/build/gmsh/build
 
 RUN cmake \
