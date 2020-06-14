@@ -15,6 +15,12 @@ RUN apt-get install -y wget git build-essential libgl1-mesa-dev libfreetype6-dev
 
 RUN dpkg-reconfigure --frontend noninteractive tzdata
 
+############################
+# pip third part libraries #
+############################
+RUN pip install svgwrite
+RUN pip install vtk
+
 ################
 # CMake 3.15.5 #
 ################
@@ -54,7 +60,7 @@ RUN ls /opt/build/occt740/lib
 WORKDIR /opt/build
 RUN git clone https://github.com/tpaviot/pythonocc-core
 WORKDIR /opt/build/pythonocc-core
-RUN git checkout 7.4.0
+RUN git checkout review/x3d-export
 WORKDIR /opt/build/pythonocc-core/build
 
 RUN cmake -G Ninja \
@@ -65,11 +71,6 @@ RUN cmake -G Ninja \
  
 RUN ninja install
 
-############
-# svgwrite #
-############
-RUN pip install svgwrite
-
 #######################
 # Run pythonocc tests #
 #######################
@@ -78,12 +79,12 @@ RUN python core_wrapper_features_unittest.py
 
 ##############################
 # Install pythonocc examples #
-##############################
+###############################
 WORKDIR /opt/build/
 RUN git clone https://github.com/tpaviot/pythonocc-demos
 WORKDIR /opt/build/pythonocc-demos
-RUN cp -r /opt/build/pythonocc-demos/assets /home/jovyan/work
-RUN cp -r /opt/build/pythonocc-demos/jupyter_notebooks /home/jovyan/work
+RUN git checkout web3d2020
+RUN cp -r /opt/build/pythonocc-demos/web3d2020-nb /home/jovyan/work
 
 #############
 # pythreejs #
@@ -91,7 +92,7 @@ RUN cp -r /opt/build/pythonocc-demos/jupyter_notebooks /home/jovyan/work
 WORKDIR /opt/build
 RUN git clone https://github.com/jovyan/pythreejs
 WORKDIR /opt/build/pythreejs
-RUN git checkout 2.1.1
+RUN git checkout 2.2.0
 RUN chown -R jovyan .
 USER jovyan
 RUN /opt/conda/bin/pip install --user -e .
@@ -109,7 +110,7 @@ ENV CASROOT=/opt/build/occt740
 WORKDIR /opt/build
 RUN git clone https://gitlab.onelab.info/gmsh/gmsh
 WORKDIR /opt/build/gmsh
-RUN git checkout gmsh_4_5_3
+RUN git checkout gmsh_4_6_0
 WORKDIR /opt/build/gmsh/build
 
 RUN cmake \
@@ -145,8 +146,13 @@ RUN cmake -G Ninja \
  
 RUN ninja install
 
+USER root
+RUN echo "c.NotebookApp.tornado_settings = {'websocket_max_message_size': 100 * 1024 * 1024}" > "/etc/jupyter/jupyter_notebook_config.py"
+
 #####################
 # back to user mode #
 #####################
 USER jovyan
-WORKDIR /home/jovyan/work
+
+WORKDIR /home/jovyan/work/web3d2020-nb
+ 
