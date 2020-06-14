@@ -53,8 +53,6 @@ RUN ls /opt/build/occt740/lib
 #############
 WORKDIR /opt/build
 RUN git clone https://github.com/tpaviot/pythonocc-core
-WORKDIR /opt/build/pythonocc-core
-RUN git checkout 7.4.0
 WORKDIR /opt/build/pythonocc-core/build
 
 RUN cmake -G Ninja \
@@ -109,7 +107,7 @@ ENV CASROOT=/opt/build/occt740
 WORKDIR /opt/build
 RUN git clone https://gitlab.onelab.info/gmsh/gmsh
 WORKDIR /opt/build/gmsh
-RUN git checkout gmsh_4_5_3
+RUN git checkout gmsh_4_5_6
 WORKDIR /opt/build/gmsh/build
 
 RUN cmake \
