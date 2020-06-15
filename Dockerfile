@@ -1,4 +1,4 @@
-FROM jupyter/scipy-notebook:7a0c7325e470
+FROM jupyter/scipy-notebook:c094bb7219f9
 
 MAINTAINER Thomas Paviot <tpaviot@gmail.com>
 
@@ -89,7 +89,7 @@ RUN cp -r /opt/build/pythonocc-demos/jupyter_notebooks /home/jovyan/work
 WORKDIR /opt/build
 RUN git clone https://github.com/jovyan/pythreejs
 WORKDIR /opt/build/pythreejs
-RUN git checkout 2.1.1
+RUN git checkout 2.2.0
 RUN chown -R jovyan .
 USER jovyan
 RUN /opt/conda/bin/pip install --user -e .
