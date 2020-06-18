@@ -53,6 +53,7 @@ RUN ls /opt/build/occt740/lib
 #############
 WORKDIR /opt/build
 RUN git clone https://github.com/tpaviot/pythonocc-core
+RUN git checkout review/x3d-export
 WORKDIR /opt/build/pythonocc-core/build
 
 RUN cmake -G Ninja \
@@ -80,6 +81,7 @@ RUN python core_wrapper_features_unittest.py
 WORKDIR /opt/build/
 RUN git clone https://github.com/tpaviot/pythonocc-demos
 WORKDIR /opt/build/pythonocc-demos
+RUN git checkout x3d-exporter
 RUN cp -r /opt/build/pythonocc-demos/assets /home/jovyan/work
 RUN cp -r /opt/build/pythonocc-demos/jupyter_notebooks /home/jovyan/work
 
