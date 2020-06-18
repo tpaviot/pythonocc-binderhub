@@ -53,6 +53,7 @@ RUN ls /opt/build/occt740/lib
 #############
 WORKDIR /opt/build
 RUN git clone https://github.com/tpaviot/pythonocc-core
+WORKDIR /opt/build/pythonocc-core
 RUN git checkout review/x3d-export
 WORKDIR /opt/build/pythonocc-core/build
 
