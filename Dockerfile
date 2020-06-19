@@ -78,7 +78,7 @@ RUN python core_wrapper_features_unittest.py
 
 ##############################
 # Install pythonocc examples #
-##############################
+###############################
 WORKDIR /opt/build/
 RUN git clone https://github.com/tpaviot/pythonocc-demos
 WORKDIR /opt/build/pythonocc-demos
