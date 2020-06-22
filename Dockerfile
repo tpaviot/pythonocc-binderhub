@@ -154,5 +154,5 @@ WORKDIR /home/jovyan/work
 
 # try to locate jupyter config file
 WORKDIR /home/jovyan
-ls -l *
-ls .jupyter *
+RUN ls -l *
+RUN ls .jupyter *
