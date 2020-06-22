@@ -151,3 +151,8 @@ RUN ninja install
 #####################
 USER jovyan
 WORKDIR /home/jovyan/work
+
+# try to locate jupyter config file
+WORKDIR /home/jovyan
+ls -l *
+ls .jupyter *
