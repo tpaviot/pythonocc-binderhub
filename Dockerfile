@@ -156,3 +156,7 @@ WORKDIR /home/jovyan/work
 WORKDIR /home/jovyan
 RUN ls -l *
 RUN ls .jupyter *
+
+USER root
+RUN cd
+RUN ls -l *
