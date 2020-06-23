@@ -156,6 +156,9 @@ WORKDIR /home/jovyan/work
 WORKDIR /home/jovyan
 RUN ls -l *
 RUN ls .jupyter *
+# make the build fail
+RUN k
+
 
 USER root
 RUN cd
