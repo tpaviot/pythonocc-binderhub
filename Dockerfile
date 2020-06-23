@@ -156,7 +156,8 @@ WORKDIR /home/jovyan/work
 WORKDIR /home/jovyan
 RUN ls -l *
 RUN ls .jupyter *
-# make the build fail
+
+RUN echo "" > ".jupyter/jupyter_notebook_config.py"
 RUN more .jupyter/jupyter_notebook_config.py
 RUN k
 
