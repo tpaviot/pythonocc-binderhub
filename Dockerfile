@@ -159,4 +159,6 @@ RUN ls .jupyter *
 
 USER root
 RUN cd
+RUN pwd
 RUN ls -l *
+ 
