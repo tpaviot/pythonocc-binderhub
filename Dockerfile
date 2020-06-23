@@ -157,7 +157,7 @@ WORKDIR /home/jovyan
 RUN ls -l *
 RUN ls .jupyter *
 
-RUN echo "" > ".jupyter/jupyter_notebook_config.py"
+RUN echo "c.NotebookApp.tornado_settings = {'websocket_max_message_size': 100 * 1024 * 1024}" > ".jupyter/jupyter_notebook_config.py"
 RUN more .jupyter/jupyter_notebook_config.py
 RUN k
 
