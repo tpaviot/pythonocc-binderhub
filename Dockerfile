@@ -146,24 +146,13 @@ RUN cmake -G Ninja \
  
 RUN ninja install
 
+############################
+# Increase max stream size #
+############################
+RUN echo "c.NotebookApp.tornado_settings = {'websocket_max_message_size': 100 * 1024 * 1024}" > ".jupyter/jupyter_notebook_config.py"
+
 #####################
 # back to user mode #
 #####################
 USER jovyan
-WORKDIR /home/jovyan/work
-
-# try to locate jupyter config file
-WORKDIR /home/jovyan
-RUN ls -l *
-RUN ls .jupyter *
-
-RUN echo "c.NotebookApp.tornado_settings = {'websocket_max_message_size': 100 * 1024 * 1024}" > ".jupyter/jupyter_notebook_config.py"
-RUN more .jupyter/jupyter_notebook_config.py
-RUN k
-
-
-USER root
-RUN cd
-RUN pwd
-RUN ls -l *
- 
+WORKDIR /home/jovyan/work/jupyter_notebooks
