@@ -65,10 +65,11 @@ RUN cmake -G Ninja \
  
 RUN ninja install
 
-############
-# svgwrite #
-############
+############################
+# pip third part libraries #
+############################
 RUN pip install svgwrite
+RUN pip install vtk
 
 #######################
 # Run pythonocc tests #
