@@ -20,15 +20,7 @@ RUN dpkg-reconfigure --frontend noninteractive tzdata
 ############################
 RUN pip install svgwrite
 RUN pip install vtk
-
-################
-# CMake 3.15.5 #
-################
-WORKDIR /opt/build
-RUN wget https://github.com/Kitware/CMake/releases/download/v3.15.5/cmake-3.15.5.tar.gz
-RUN tar -zxvf cmake-3.15.5.tar.gz
-WORKDIR /opt/build/cmake-3.15.5
-RUN ./bootstrap && make -j3 && make install
+RUN pip install cmake==3.15.3
 
 ############################################################
 # OCCT 7.4.0                                               #
