@@ -59,13 +59,13 @@ WORKDIR /opt/build/pythonocc-core
 RUN git checkout review/x3d-export
 WORKDIR /opt/build/pythonocc-core/build
 
-RUN cmake -G Ninja \
+RUN cmake \
  -DOCE_INCLUDE_PATH=/opt/build/occt740p1/include/opencascade \
  -DOCE_LIB_PATH=/opt/build/occt740p1/lib \
  -DPYTHONOCC_BUILD_TYPE=Release \
  ..
  
-RUN ninja install
+RUN make -j3 install
 
 #######################
 # Run pythonocc tests #
