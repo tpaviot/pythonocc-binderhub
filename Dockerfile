@@ -35,7 +35,7 @@ WORKDIR /opt/build/occt-V7_4_0p1/build
 RUN ls /usr/include
 RUN cmake -G Ninja \
  -DUSE_TBB:BOOL=ON \
- -DUSE_FREEIMAGE:BOOL=ON \
+ -DUSE_FREEIMAGE:BOOL=OFF \
  -DBUILD_RELEASE_DISABLE_EXCEPTIONS:BOOL=OFF \
  -DINSTALL_DIR=/opt/build/occt740p1 \
  ..
