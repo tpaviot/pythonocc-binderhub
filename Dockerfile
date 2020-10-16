@@ -127,7 +127,7 @@ RUN git submodule update --init --remote --recursive
 RUN git checkout v0.6.0
 WORKDIR /opt/build/IfcOpenShell/build
 
-RUN cmake -G Ninja \
+RUN cmake \
  -DCOLLADA_SUPPORT=OFF \
  -DBUILD_EXAMPLES=OFF \
  -DOCC_INCLUDE_DIR=/opt/build/occt740p1/include/opencascade \
@@ -139,7 +139,7 @@ RUN cmake -G Ninja \
  -DPYTHON_EXECUTABLE=/opt/conda/bin/python \
  ../cmake
  
-RUN ninja install
+RUN make && make install
 
 USER root
 RUN echo "c.NotebookApp.tornado_settings = {'websocket_max_message_size': 100 * 1024 * 1024}" > "/etc/jupyter/jupyter_notebook_config.py"
