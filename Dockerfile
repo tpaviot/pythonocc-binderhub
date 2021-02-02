@@ -25,28 +25,28 @@ WORKDIR /opt/build/cmake-3.15.5
 RUN ./bootstrap && make -j3 && make install
 
 ############################################################
-# OCCT 7.4.0                                               #
+# OCCT 7.4.0p2                                             #
 # Download the official source package from OCE repository #
 ############################################################
 WORKDIR /opt/build
-RUN wget https://github.com/tpaviot/oce/releases/download/official-upstream-packages/opencascade-7.4.0.tgz
-RUN tar -zxvf opencascade-7.4.0.tgz >> installed_occt740_files.txt
-RUN mkdir opencascade-7.4.0/build
-WORKDIR /opt/build/opencascade-7.4.0/build
+RUN wget https://github.com/tpaviot/oce/releases/download/official-upstream-packages/opencascade-7.4.0p2.snapshot.tar.gz
+RUN tar -zxvf opencascade-7.4.0p2.snapshot.tar.gz >> installed_occt740_p2_files.txt
+RUN mkdir occt-85f78ac/build
+WORKDIR /opt/build/occt-85f78ac/build
 
 RUN ls /usr/include
 RUN cmake -G Ninja \
- -DINSTALL_DIR=/opt/build/occt740 \
+ -DINSTALL_DIR=/opt/build/occt740p2 \
  -DBUILD_RELEASE_DISABLE_EXCEPTIONS=OFF \
  ..
 
 RUN ninja install
 
-RUN echo "/opt/build/occt740/lib" >> /etc/ld.so.conf.d/occt.conf
+RUN echo "/opt/build/occt740p2/lib" >> /etc/ld.so.conf.d/occt.conf
 RUN ldconfig
 
-RUN ls /opt/build/occt740
-RUN ls /opt/build/occt740/lib
+RUN ls /opt/build/occt740p2
+RUN ls /opt/build/occt740p2/lib
 
 #############
 # pythonocc #
@@ -54,12 +54,12 @@ RUN ls /opt/build/occt740/lib
 WORKDIR /opt/build
 RUN git clone https://github.com/tpaviot/pythonocc-core
 WORKDIR /opt/build/pythonocc-core
-RUN git checkout 7.4.0
+RUN git checkout 7.4.1
 WORKDIR /opt/build/pythonocc-core/build
 
 RUN cmake -G Ninja \
- -DOCE_INCLUDE_PATH=/opt/build/occt740/include/opencascade \
- -DOCE_LIB_PATH=/opt/build/occt740/lib \
+ -DOCE_INCLUDE_PATH=/opt/build/occt740p2/include/opencascade \
+ -DOCE_LIB_PATH=/opt/build/occt740p2/lib \
  -DPYTHONOCC_BUILD_TYPE=Release \
  ..
  
@@ -105,7 +105,7 @@ RUN jupyter nbextension enable pythreejs --py --sys-prefix
 ########
 # gmsh #
 ########
-ENV CASROOT=/opt/build/occt740
+ENV CASROOT=/opt/build/occt740p2
 WORKDIR /opt/build
 RUN git clone https://gitlab.onelab.info/gmsh/gmsh
 WORKDIR /opt/build/gmsh
@@ -134,8 +134,8 @@ WORKDIR /opt/build/IfcOpenShell/build
 RUN cmake -G Ninja \
  -DCOLLADA_SUPPORT=OFF \
  -DBUILD_EXAMPLES=OFF \
- -DOCC_INCLUDE_DIR=/opt/build/occt740/include/opencascade \
- -DOCC_LIBRARY_DIR=/opt/build/occt740/lib \
+ -DOCC_INCLUDE_DIR=/opt/build/occt740p2/include/opencascade \
+ -DOCC_LIBRARY_DIR=/opt/build/occt740p2/lib \
  -DLIBXML2_INCLUDE_DIR:PATH=/usr/include/libxml2 \
  -DLIBXML2_LIBRARIES=xml2 \
  -DPYTHON_LIBRARY=/opt/conda/lib/libpython3.7m.so \
