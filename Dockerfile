@@ -15,14 +15,14 @@ RUN apt-get install -y wget git build-essential libgl1-mesa-dev libfreetype6-dev
 
 RUN dpkg-reconfigure --frontend noninteractive tzdata
 
-################
-# CMake 3.15.5 #
-################
-#WORKDIR /opt/build
-#RUN wget https://github.com/Kitware/CMake/releases/download/v3.15.5/cmake-3.15.5.tar.gz
-#RUN tar -zxvf cmake-3.15.5.tar.gz
-#WORKDIR /opt/build/cmake-3.15.5
-#RUN ./bootstrap && make -j3 && make install
+######################
+# Python information #
+######################
+RUN which python
+#RUN ls /opt/conda/include
+#RUN ls /opt/conda/bin
+#RUN ls /opt/conda/lib
+RUN python -c 'import sys; print(sys.version_info[:])'
 
 ############################################################
 # OCCT 7.4.0p2                                             #
@@ -138,8 +138,8 @@ RUN cmake \
  -DOCC_LIBRARY_DIR=/opt/build/occt740p2/lib \
  -DLIBXML2_INCLUDE_DIR:PATH=/usr/include/libxml2 \
  -DLIBXML2_LIBRARIES=xml2 \
- -DPYTHON_LIBRARY=/opt/conda/lib/libpython3.7m.so \
- -DPYTHON_INCLUDE_DIR=/opt/conda/include/python3.7m \
+ -DPYTHON_LIBRARY=/opt/conda/lib/libpython3.8.so \
+ -DPYTHON_INCLUDE_DIR=/opt/conda/include/python3.8 \
  -DPYTHON_EXECUTABLE=/opt/conda/bin/python \
  ../cmake
 
