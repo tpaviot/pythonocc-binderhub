@@ -91,7 +91,7 @@ RUN cp -r /opt/build/pythonocc-demos/jupyter_notebooks /home/jovyan/work
 WORKDIR /opt/build
 RUN git clone https://github.com/jovyan/pythreejs
 WORKDIR /opt/build/pythreejs
-RUN git checkout 2.1.1
+RUN git checkout 2.2.1
 RUN chown -R jovyan .
 USER jovyan
 RUN /opt/conda/bin/pip install --user -e .
