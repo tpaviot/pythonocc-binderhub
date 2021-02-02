@@ -57,13 +57,13 @@ WORKDIR /opt/build/pythonocc-core
 RUN git checkout 7.4.1
 WORKDIR /opt/build/pythonocc-core/build
 
-RUN cmake -G Ninja \
+RUN cmake \
  -DOCE_INCLUDE_PATH=/opt/build/occt740p2/include/opencascade \
  -DOCE_LIB_PATH=/opt/build/occt740p2/lib \
  -DPYTHONOCC_BUILD_TYPE=Release \
  ..
- 
-RUN ninja install
+
+RUN make -j3 && make install 
 
 ############
 # svgwrite #
@@ -119,7 +119,7 @@ RUN cmake \
  -DCMAKE_INSTALL_PREFIX=/usr/local \
  ..
 
-RUN make -j3 && make install
+RUN make -j9 && make install
 
 ################
 # IfcOpenShell #
@@ -131,7 +131,7 @@ RUN git submodule update --init --remote --recursive
 RUN git checkout v0.6.0
 WORKDIR /opt/build/IfcOpenShell/build
 
-RUN cmake -G Ninja \
+RUN cmake \
  -DCOLLADA_SUPPORT=OFF \
  -DBUILD_EXAMPLES=OFF \
  -DOCC_INCLUDE_DIR=/opt/build/occt740p2/include/opencascade \
@@ -142,8 +142,8 @@ RUN cmake -G Ninja \
  -DPYTHON_INCLUDE_DIR=/opt/conda/include/python3.7m \
  -DPYTHON_EXECUTABLE=/opt/conda/bin/python \
  ../cmake
- 
-RUN ninja install
+
+RUN make && make install
 
 #####################
 # back to user mode #
