@@ -11,18 +11,18 @@ ENV DEBIAN_FRONTEND=noninteractive
 ##############
 RUN apt-get update
 
-RUN apt-get install -y wget git build-essential libgl1-mesa-dev libfreetype6-dev libglu1-mesa-dev libzmq3-dev libsqlite3-dev libicu-dev python3-dev libgl2ps-dev libfreeimage-dev libtbb-dev ninja-build bison autotools-dev automake libpcre3 libpcre3-dev tcl8.5 tcl8.5-dev tk8.5 tk8.5-dev libxmu-dev libxi-dev libopenblas-dev libboost-all-dev swig libxml2-dev
+RUN apt-get install -y wget git build-essential libgl1-mesa-dev libfreetype6-dev libglu1-mesa-dev libzmq3-dev libsqlite3-dev libicu-dev python3-dev libgl2ps-dev libfreeimage-dev libtbb-dev ninja-build bison autotools-dev automake libpcre3 libpcre3-dev tcl8.5 tcl8.5-dev tk8.5 tk8.5-dev libxmu-dev libxi-dev libopenblas-dev libboost-all-dev swig libxml2-dev cmake
 
 RUN dpkg-reconfigure --frontend noninteractive tzdata
 
 ################
 # CMake 3.15.5 #
 ################
-WORKDIR /opt/build
-RUN wget https://github.com/Kitware/CMake/releases/download/v3.15.5/cmake-3.15.5.tar.gz
-RUN tar -zxvf cmake-3.15.5.tar.gz
-WORKDIR /opt/build/cmake-3.15.5
-RUN ./bootstrap && make -j3 && make install
+#WORKDIR /opt/build
+#RUN wget https://github.com/Kitware/CMake/releases/download/v3.15.5/cmake-3.15.5.tar.gz
+#RUN tar -zxvf cmake-3.15.5.tar.gz
+#WORKDIR /opt/build/cmake-3.15.5
+#RUN ./bootstrap && make -j3 && make install
 
 ############################################################
 # OCCT 7.4.0p2                                             #
