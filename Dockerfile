@@ -1,4 +1,4 @@
-FROM jupyter/scipy-notebook:7a0c7325e470
+FROM jupyter/scipy-notebook:5cb007f03275
 
 MAINTAINER Thomas Paviot <tpaviot@gmail.com>
 
@@ -11,42 +11,42 @@ ENV DEBIAN_FRONTEND=noninteractive
 ##############
 RUN apt-get update
 
-RUN apt-get install -y wget git build-essential libgl1-mesa-dev libfreetype6-dev libglu1-mesa-dev libzmq3-dev libsqlite3-dev libicu-dev python3-dev libgl2ps-dev libfreeimage-dev libtbb-dev ninja-build bison autotools-dev automake libpcre3 libpcre3-dev tcl8.5 tcl8.5-dev tk8.5 tk8.5-dev libxmu-dev libxi-dev libopenblas-dev libboost-all-dev swig libxml2-dev
+RUN apt-get install -y wget git build-essential libgl1-mesa-dev libfreetype6-dev libglu1-mesa-dev libzmq3-dev libsqlite3-dev libicu-dev python3-dev libgl2ps-dev libfreeimage-dev libtbb-dev ninja-build bison autotools-dev automake libpcre3 libpcre3-dev tcl8.6 tcl8.6-dev tk8.6 tk8.6-dev libxmu-dev libxi-dev libopenblas-dev libboost-all-dev swig libxml2-dev cmake
 
 RUN dpkg-reconfigure --frontend noninteractive tzdata
 
-################
-# CMake 3.15.5 #
-################
-WORKDIR /opt/build
-RUN wget https://github.com/Kitware/CMake/releases/download/v3.15.5/cmake-3.15.5.tar.gz
-RUN tar -zxvf cmake-3.15.5.tar.gz
-WORKDIR /opt/build/cmake-3.15.5
-RUN ./bootstrap && make -j3 && make install
+######################
+# Python information #
+######################
+RUN which python
+#RUN ls /opt/conda/include
+#RUN ls /opt/conda/bin
+#RUN ls /opt/conda/lib
+RUN python -c 'import sys; print(sys.version_info[:])'
 
 ############################################################
-# OCCT 7.4.0                                               #
+# OCCT 7.4.0p2                                             #
 # Download the official source package from OCE repository #
 ############################################################
 WORKDIR /opt/build
-RUN wget https://github.com/tpaviot/oce/releases/download/official-upstream-packages/opencascade-7.4.0.tgz
-RUN tar -zxvf opencascade-7.4.0.tgz >> installed_occt740_files.txt
-RUN mkdir opencascade-7.4.0/build
-WORKDIR /opt/build/opencascade-7.4.0/build
+RUN wget https://github.com/tpaviot/oce/releases/download/official-upstream-packages/opencascade-7.4.0p2.snapshot.tar.gz
+RUN tar -zxvf opencascade-7.4.0p2.snapshot.tar.gz >> installed_occt740_p2_files.txt
+RUN mkdir occt-85f78ac/build
+WORKDIR /opt/build/occt-85f78ac/build
 
 RUN ls /usr/include
 RUN cmake -G Ninja \
- -DINSTALL_DIR=/opt/build/occt740 \
+ -DINSTALL_DIR=/opt/build/occt740p2 \
  -DBUILD_RELEASE_DISABLE_EXCEPTIONS=OFF \
  ..
 
 RUN ninja install
 
-RUN echo "/opt/build/occt740/lib" >> /etc/ld.so.conf.d/occt.conf
+RUN echo "/opt/build/occt740p2/lib" >> /etc/ld.so.conf.d/occt.conf
 RUN ldconfig
 
-RUN ls /opt/build/occt740
-RUN ls /opt/build/occt740/lib
+RUN ls /opt/build/occt740p2
+RUN ls /opt/build/occt740p2/lib
 
 #############
 # pythonocc #
@@ -54,16 +54,16 @@ RUN ls /opt/build/occt740/lib
 WORKDIR /opt/build
 RUN git clone https://github.com/tpaviot/pythonocc-core
 WORKDIR /opt/build/pythonocc-core
-RUN git checkout 7.4.0
+RUN git checkout 7.4.1
 WORKDIR /opt/build/pythonocc-core/build
 
-RUN cmake -G Ninja \
- -DOCE_INCLUDE_PATH=/opt/build/occt740/include/opencascade \
- -DOCE_LIB_PATH=/opt/build/occt740/lib \
+RUN cmake \
+ -DOCE_INCLUDE_PATH=/opt/build/occt740p2/include/opencascade \
+ -DOCE_LIB_PATH=/opt/build/occt740p2/lib \
  -DPYTHONOCC_BUILD_TYPE=Release \
  ..
- 
-RUN ninja install
+
+RUN make -j3 && make install 
 
 ############
 # svgwrite #
@@ -91,7 +91,7 @@ RUN cp -r /opt/build/pythonocc-demos/jupyter_notebooks /home/jovyan/work
 WORKDIR /opt/build
 RUN git clone https://github.com/jovyan/pythreejs
 WORKDIR /opt/build/pythreejs
-RUN git checkout 2.1.1
+RUN git checkout 2.2.1
 RUN chown -R jovyan .
 USER jovyan
 RUN /opt/conda/bin/pip install --user -e .
@@ -105,7 +105,7 @@ RUN jupyter nbextension enable pythreejs --py --sys-prefix
 ########
 # gmsh #
 ########
-ENV CASROOT=/opt/build/occt740
+ENV CASROOT=/opt/build/occt740p2
 WORKDIR /opt/build
 RUN git clone https://gitlab.onelab.info/gmsh/gmsh
 WORKDIR /opt/build/gmsh
@@ -119,7 +119,7 @@ RUN cmake \
  -DCMAKE_INSTALL_PREFIX=/usr/local \
  ..
 
-RUN make -j3 && make install
+RUN make -j9 && make install
 
 ################
 # IfcOpenShell #
@@ -131,19 +131,19 @@ RUN git submodule update --init --remote --recursive
 RUN git checkout v0.6.0
 WORKDIR /opt/build/IfcOpenShell/build
 
-RUN cmake -G Ninja \
+RUN cmake \
  -DCOLLADA_SUPPORT=OFF \
  -DBUILD_EXAMPLES=OFF \
- -DOCC_INCLUDE_DIR=/opt/build/occt740/include/opencascade \
- -DOCC_LIBRARY_DIR=/opt/build/occt740/lib \
+ -DOCC_INCLUDE_DIR=/opt/build/occt740p2/include/opencascade \
+ -DOCC_LIBRARY_DIR=/opt/build/occt740p2/lib \
  -DLIBXML2_INCLUDE_DIR:PATH=/usr/include/libxml2 \
  -DLIBXML2_LIBRARIES=xml2 \
- -DPYTHON_LIBRARY=/opt/conda/lib/libpython3.7m.so \
- -DPYTHON_INCLUDE_DIR=/opt/conda/include/python3.7m \
+ -DPYTHON_LIBRARY=/opt/conda/lib/libpython3.8.so \
+ -DPYTHON_INCLUDE_DIR=/opt/conda/include/python3.8 \
  -DPYTHON_EXECUTABLE=/opt/conda/bin/python \
  ../cmake
- 
-RUN ninja install
+
+RUN make && make install
 
 #####################
 # back to user mode #
