@@ -42,7 +42,7 @@ RUN cmake -G Ninja \
 
 RUN ninja install
 
-RUN echo "/opt/build/occt740p2/lib" >> /etc/ld.so.conf.d/occt.conf
+RUN echo "/opt/build/occt750p2/lib" >> /etc/ld.so.conf.d/occt.conf
 RUN ldconfig
 
 RUN ls /opt/build/occt750
