@@ -29,14 +29,14 @@ RUN python -c 'import sys; print(sys.version_info[:])'
 # Download the official source package from OCE repository #
 ############################################################
 WORKDIR /opt/build
-RUN wget https://github.com/tpaviot/oce/releases/download/official-upstream-packages/opencascade-7.4.0p2.snapshot.tar.gz
-RUN tar -zxvf opencascade-7.4.0p2.snapshot.tar.gz >> installed_occt740_p2_files.txt
-RUN mkdir occt-85f78ac/build
-WORKDIR /opt/build/occt-85f78ac/build
+RUN wget https://github.com/tpaviot/oce/archive/upstream/V7_5_0.tar.gz
+RUN tar -zxvf V7_5_0.tar.gz >> extracted_occt750_files.txt
+RUN mkdir oce-upstream-V7_5_0/build
+WORKDIR /opt/build/oce-upstream-V7_5_0/build
 
 RUN ls /usr/include
 RUN cmake -G Ninja \
- -DINSTALL_DIR=/opt/build/occt740p2 \
+ -DINSTALL_DIR=/opt/build/occt750 \
  -DBUILD_RELEASE_DISABLE_EXCEPTIONS=OFF \
  ..
 
@@ -45,8 +45,8 @@ RUN ninja install
 RUN echo "/opt/build/occt740p2/lib" >> /etc/ld.so.conf.d/occt.conf
 RUN ldconfig
 
-RUN ls /opt/build/occt740p2
-RUN ls /opt/build/occt740p2/lib
+RUN ls /opt/build/occt750
+RUN ls /opt/build/occt750/lib
 
 #############
 # pythonocc #
@@ -54,12 +54,12 @@ RUN ls /opt/build/occt740p2/lib
 WORKDIR /opt/build
 RUN git clone https://github.com/tpaviot/pythonocc-core
 WORKDIR /opt/build/pythonocc-core
-RUN git checkout 7.4.1
+#RUN git checkout 7.4.1
 WORKDIR /opt/build/pythonocc-core/build
 
 RUN cmake \
- -DOCE_INCLUDE_PATH=/opt/build/occt740p2/include/opencascade \
- -DOCE_LIB_PATH=/opt/build/occt740p2/lib \
+ -DOCE_INCLUDE_PATH=/opt/build/occt750/include/opencascade \
+ -DOCE_LIB_PATH=/opt/build/occt750/lib \
  -DPYTHONOCC_BUILD_TYPE=Release \
  ..
 
@@ -105,11 +105,11 @@ RUN jupyter nbextension enable pythreejs --py --sys-prefix
 ########
 # gmsh #
 ########
-ENV CASROOT=/opt/build/occt740p2
+ENV CASROOT=/opt/build/occt750
 WORKDIR /opt/build
 RUN git clone https://gitlab.onelab.info/gmsh/gmsh
 WORKDIR /opt/build/gmsh
-RUN git checkout gmsh_4_5_3
+RUN git checkout gmsh_4_6_0
 WORKDIR /opt/build/gmsh/build
 
 RUN cmake \
@@ -134,8 +134,8 @@ WORKDIR /opt/build/IfcOpenShell/build
 RUN cmake \
  -DCOLLADA_SUPPORT=OFF \
  -DBUILD_EXAMPLES=OFF \
- -DOCC_INCLUDE_DIR=/opt/build/occt740p2/include/opencascade \
- -DOCC_LIBRARY_DIR=/opt/build/occt740p2/lib \
+ -DOCC_INCLUDE_DIR=/opt/build/occt750/include/opencascade \
+ -DOCC_LIBRARY_DIR=/opt/build/occt750/lib \
  -DLIBXML2_INCLUDE_DIR:PATH=/usr/include/libxml2 \
  -DLIBXML2_LIBRARIES=xml2 \
  -DPYTHON_LIBRARY=/opt/conda/lib/libpython3.8.so \
