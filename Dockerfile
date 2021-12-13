@@ -1,5 +1,4 @@
-FROM jupyter/scipy-notebook:5cb007f03275
-
+FROM jupyter/scipy-notebook:notebook-6.4.5
 MAINTAINER Thomas Paviot <tpaviot@gmail.com>
 
 USER root
@@ -91,7 +90,7 @@ RUN cp -r /opt/build/pythonocc-demos/jupyter_notebooks /home/jovyan/work
 WORKDIR /opt/build
 RUN git clone https://github.com/jovyan/pythreejs
 WORKDIR /opt/build/pythreejs
-RUN git checkout 2.2.1
+RUN git checkout 2.3.0
 RUN chown -R jovyan .
 USER jovyan
 RUN /opt/conda/bin/pip install --user -e .
@@ -109,7 +108,7 @@ ENV CASROOT=/opt/build/occt753
 WORKDIR /opt/build
 RUN git clone https://gitlab.onelab.info/gmsh/gmsh
 WORKDIR /opt/build/gmsh
-RUN git checkout gmsh_4_6_0
+RUN git checkout gmsh_4_9_0
 WORKDIR /opt/build/gmsh/build
 
 RUN cmake \
