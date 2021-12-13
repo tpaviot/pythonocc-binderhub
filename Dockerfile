@@ -112,7 +112,7 @@ RUN git checkout gmsh_4_9_0
 WORKDIR /opt/build/gmsh/build
 
 RUN cmake \
- -DCMAKE_BUilD_TYPE=Release \
+ -DCMAKE_BUIlD_TYPE=Release \
  -DENABLE_OCC=ON \
  -DENABLE_OCC_CAF=ON \
  -DCMAKE_INSTALL_PREFIX=/usr/local \
