@@ -112,13 +112,13 @@ RUN git checkout gmsh_4_9_0
 WORKDIR /opt/build/gmsh/build
 
 RUN cmake \
- -DCMAKE_BUIlD_TYPE=Release \
+ -DCMAKE_BUILD_TYPE=RelWithDebInfo \
  -DENABLE_OCC=ON \
  -DENABLE_OCC_CAF=ON \
  -DCMAKE_INSTALL_PREFIX=/usr/local \
  ..
 
-RUN make -j9 && make install
+RUN make && make install
 
 ################
 # IfcOpenShell #
