@@ -123,26 +123,26 @@ RUN make && make install
 ################
 # IfcOpenShell #
 ################
-WORKDIR /opt/build
-RUN git clone https://github.com/tpaviot/IfcOpenShell
-WORKDIR /opt/build/IfcOpenShell
-RUN git submodule update --init --remote --recursive
-RUN git checkout v0.6.0
-WORKDIR /opt/build/IfcOpenShell/build
-
-RUN cmake \
- -DCOLLADA_SUPPORT=OFF \
- -DBUILD_EXAMPLES=OFF \
- -DOCC_INCLUDE_DIR=/opt/build/occt753/include/opencascade \
- -DOCC_LIBRARY_DIR=/opt/build/occt753/lib \
- -DLIBXML2_INCLUDE_DIR:PATH=/usr/include/libxml2 \
- -DLIBXML2_LIBRARIES=xml2 \
- -DPYTHON_LIBRARY=/opt/conda/lib/libpython3.8.so \
- -DPYTHON_INCLUDE_DIR=/opt/conda/include/python3.8 \
- -DPYTHON_EXECUTABLE=/opt/conda/bin/python \
- ../cmake
-
-RUN make && make install
+#WORKDIR /opt/build
+#RUN git clone https://github.com/tpaviot/IfcOpenShell
+#WORKDIR /opt/build/IfcOpenShell
+#RUN git submodule update --init --remote --recursive
+#RUN git checkout v0.6.0
+#WORKDIR /opt/build/IfcOpenShell/build
+#
+#RUN cmake \
+# -DCOLLADA_SUPPORT=OFF \
+# -DBUILD_EXAMPLES=OFF \
+# -DOCC_INCLUDE_DIR=/opt/build/occt753/include/opencascade \
+# -DOCC_LIBRARY_DIR=/opt/build/occt753/lib \
+# -DLIBXML2_INCLUDE_DIR:PATH=/usr/include/libxml2 \
+# -DLIBXML2_LIBRARIES=xml2 \
+# -DPYTHON_LIBRARY=/opt/conda/lib/libpython3.8.so \
+# -DPYTHON_INCLUDE_DIR=/opt/conda/include/python3.8 \
+# -DPYTHON_EXECUTABLE=/opt/conda/bin/python \
+# ../cmake
+#
+#RUN make && make install
 
 #####################
 # back to user mode #
