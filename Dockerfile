@@ -24,28 +24,28 @@ RUN which python
 RUN python -c 'import sys; print(sys.version_info[:])'
 
 ############################################################
-# OCCT 7.5.3                                               #
+# OCCT 7.6.2                                               #
 # Download the official source package from git repository #
 ############################################################
 WORKDIR /opt/build
-RUN wget 'https://git.dev.opencascade.org/gitweb/?p=occt.git;a=snapshot;h=fecb042498514186bd37fa621cdcf09eb61899a3;sf=tgz' -O occt-fecb042.tar.gz
-RUN tar -zxvf occt-fecb042.tar.gz >> extracted_occt753_files.txt
-RUN mkdir occt-fecb042/build
-WORKDIR /opt/build/occt-fecb042/build
+RUN wget 'https://git.dev.opencascade.org/gitweb/?p=occt.git;a=snapshot;h=bb368e271e24f63078129283148ce83db6b9670a;sf=tgz' -O occt-bb368e2.tar.gz
+RUN tar -zxvf occt-bb368e2.tar.gz >> extracted_occt762_files.txt
+RUN mkdir occt-bb368e2/build
+WORKDIR /opt/build/occt-bb368e2/build
 
 RUN ls /usr/include
 RUN cmake -G Ninja \
- -DINSTALL_DIR=/opt/build/occt753 \
+ -DINSTALL_DIR=/opt/build/occt762 \
  -DBUILD_RELEASE_DISABLE_EXCEPTIONS=OFF \
  ..
 
 RUN ninja install
 
-RUN echo "/opt/build/occt753/lib" >> /etc/ld.so.conf.d/occt.conf
+RUN echo "/opt/build/occt762/lib" >> /etc/ld.so.conf.d/occt.conf
 RUN ldconfig
 
-RUN ls /opt/build/occt753
-RUN ls /opt/build/occt753/lib
+RUN ls /opt/build/occt762
+RUN ls /opt/build/occt762/lib
 
 #############
 # pythonocc #
@@ -53,12 +53,12 @@ RUN ls /opt/build/occt753/lib
 WORKDIR /opt/build
 RUN git clone https://github.com/tpaviot/pythonocc-core
 WORKDIR /opt/build/pythonocc-core
-#RUN git checkout 7.5.1
+#RUN git checkout review/occt762
 WORKDIR /opt/build/pythonocc-core/build
 
 RUN cmake \
- -DOCE_INCLUDE_PATH=/opt/build/occt753/include/opencascade \
- -DOCE_LIB_PATH=/opt/build/occt753/lib \
+ -DOCE_INCLUDE_PATH=/opt/build/occt762/include/opencascade \
+ -DOCE_LIB_PATH=/opt/build/occt762/lib \
  -DPYTHONOCC_BUILD_TYPE=Release \
  ..
 
@@ -104,11 +104,11 @@ RUN jupyter nbextension enable pythreejs --py --sys-prefix
 ########
 # gmsh #
 ########
-ENV CASROOT=/opt/build/occt753
+ENV CASROOT=/opt/build/occt762
 WORKDIR /opt/build
 RUN git clone https://gitlab.onelab.info/gmsh/gmsh
 WORKDIR /opt/build/gmsh
-RUN git checkout gmsh_4_9_0
+RUN git checkout gmsh_4_10_5
 WORKDIR /opt/build/gmsh/build
 
 RUN cmake \
@@ -127,14 +127,14 @@ RUN make && make install
 #RUN git clone https://github.com/tpaviot/IfcOpenShell
 #WORKDIR /opt/build/IfcOpenShell
 #RUN git submodule update --init --remote --recursive
-#RUN git checkout v0.6.0
+#RUN git checkout v0.7.0
 #WORKDIR /opt/build/IfcOpenShell/build
 #
 #RUN cmake \
 # -DCOLLADA_SUPPORT=OFF \
 # -DBUILD_EXAMPLES=OFF \
-# -DOCC_INCLUDE_DIR=/opt/build/occt753/include/opencascade \
-# -DOCC_LIBRARY_DIR=/opt/build/occt753/lib \
+# -DOCC_INCLUDE_DIR=/opt/build/occt762/include/opencascade \
+# -DOCC_LIBRARY_DIR=/opt/build/occt762/lib \
 # -DLIBXML2_INCLUDE_DIR:PATH=/usr/include/libxml2 \
 # -DLIBXML2_LIBRARIES=xml2 \
 # -DPYTHON_LIBRARY=/opt/conda/lib/libpython3.8.so \
