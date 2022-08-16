@@ -87,19 +87,7 @@ RUN cp -r /opt/build/pythonocc-demos/jupyter_notebooks /home/jovyan/work
 #############
 # pythreejs #
 #############
-WORKDIR /opt/build
-RUN git clone https://github.com/jovyan/pythreejs
-WORKDIR /opt/build/pythreejs
-RUN git checkout 2.3.0
-RUN chown -R jovyan .
-USER jovyan
-RUN /opt/conda/bin/pip install --user -e .
-WORKDIR /opt/build/pythreejs/js
-RUN npm run autogen
-RUN npm run build:all
-USER root
-RUN jupyter nbextension install --py --symlink --sys-prefix pythreejs
-RUN jupyter nbextension enable pythreejs --py --sys-prefix
+RUN /opt/conda/bin/pip install pythreejs
 
 ########
 # gmsh #
