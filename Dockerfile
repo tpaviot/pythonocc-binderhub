@@ -9,60 +9,32 @@ ENV DEBIAN_FRONTEND=noninteractive
 # apt update #
 ##############
 RUN apt-get update
-
-RUN apt-get install -y wget git build-essential libgl1-mesa-dev libfreetype6-dev libglu1-mesa-dev libzmq3-dev libsqlite3-dev libicu-dev python3-dev libgl2ps-dev libfreeimage-dev libtbb-dev ninja-build bison autotools-dev automake libpcre3 libpcre3-dev tcl8.6 tcl8.6-dev tk8.6 tk8.6-dev libxmu-dev libxi-dev libopenblas-dev libboost-all-dev swig libxml2-dev cmake rapidjson-dev
-
+RUN apt-get install -y wget libglu1-mesa-dev libgl1-mesa-dev libxmu-dev libxi-dev
 RUN dpkg-reconfigure --frontend noninteractive tzdata
 
-######################
-# Python information #
-######################
-RUN which python
-#RUN ls /opt/conda/include
-#RUN ls /opt/conda/bin
-#RUN ls /opt/conda/lib
-RUN python -c 'import sys; print(sys.version_info[:])'
+###############################################
+# OCCT 7.6.2                                  #
+# Install occt 7.6.2 from conda-forge channel #
+###############################################
+RUN ls /opt
+RUN /opt/conda/bin/conda config --set always_yes yes --set changeps1 no
+RUN /opt/conda/bin/conda update -q conda
+RUN /opt/conda/bin/conda info -a
+RUN /opt/conda/bin/conda config --add channels https://conda.anaconda.org/conda-forge
+RUN /opt/conda/bin/conda create --name=pyocc762 python=3.9
+RUN source activate pyocc762
+RUN /opt/conda/bin/conda install conda-verify libarchive anaconda-client conda-build
+RUN /opt/conda/bin/conda install occt=7.6.2
 
-############################################################
-# OCCT 7.6.2                                               #
-# Download the official source package from git repository #
-############################################################
-WORKDIR /opt/build
-RUN wget 'https://git.dev.opencascade.org/gitweb/?p=occt.git;a=snapshot;h=bb368e271e24f63078129283148ce83db6b9670a;sf=tgz' -O occt-bb368e2.tar.gz
-RUN tar -zxvf occt-bb368e2.tar.gz >> extracted_occt762_files.txt
-RUN mkdir occt-bb368e2/build
-WORKDIR /opt/build/occt-bb368e2/build
-
-RUN ls /usr/include
-RUN cmake -G Ninja \
- -DINSTALL_DIR=/opt/build/occt762 \
- -DBUILD_RELEASE_DISABLE_EXCEPTIONS=OFF \
- ..
-
-RUN ninja install
-
-RUN echo "/opt/build/occt762/lib" >> /etc/ld.so.conf.d/occt.conf
-RUN ldconfig
-
-RUN ls /opt/build/occt762
-RUN ls /opt/build/occt762/lib
-
-#############
-# pythonocc #
-#############
+###################
+# Build pythonocc #
+###################
 WORKDIR /opt/build
 RUN git clone https://github.com/tpaviot/pythonocc-core
 WORKDIR /opt/build/pythonocc-core
 RUN git checkout review/occt762
-WORKDIR /opt/build/pythonocc-core/build
+RUN /opt/conda/bin/conda build --no-remove-work-dir --dirty ci/conda
 
-RUN cmake \
- -DOCE_INCLUDE_PATH=/opt/build/occt762/include/opencascade \
- -DOCE_LIB_PATH=/opt/build/occt762/lib \
- -DPYTHONOCC_BUILD_TYPE=Release \
- ..
-
-RUN make -j3 && make install 
 
 ############
 # svgwrite #
