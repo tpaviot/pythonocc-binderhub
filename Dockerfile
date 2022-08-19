@@ -12,10 +12,9 @@ RUN apt-get update
 RUN apt-get install -y wget libglu1-mesa-dev libgl1-mesa-dev libxmu-dev libxi-dev
 RUN dpkg-reconfigure --frontend noninteractive tzdata
 
-###############################################
-# OCCT 7.6.2                                  #
-# Install occt 7.6.2 from conda-forge channel #
-###############################################
+#########################################################
+# Install pythonocc-core 7.6.2 from conda-forge channel #
+#########################################################
 RUN ls /opt
 RUN /opt/conda/bin/conda config --set always_yes yes --set changeps1 no
 RUN /opt/conda/bin/conda update -q conda
@@ -24,28 +23,15 @@ RUN /opt/conda/bin/conda config --add channels https://conda.anaconda.org/conda-
 RUN /opt/conda/bin/conda create --name=pyocc762 python=3.9
 RUN source activate pyocc762
 RUN /opt/conda/bin/conda install conda-verify libarchive anaconda-client conda-build
-RUN /opt/conda/bin/conda install occt=7.6.2
-
-###################
-# Build pythonocc #
-###################
-WORKDIR /opt/build
-RUN git clone https://github.com/tpaviot/pythonocc-core
-WORKDIR /opt/build/pythonocc-core
-RUN git checkout review/occt762
-RUN /opt/conda/bin/conda build --no-remove-work-dir --dirty ci/conda
-
-
-############
-# svgwrite #
-############
-RUN pip install svgwrite
+RUN /opt/conda/bin/conda install -c tpaviot pythonocc-core=7.6.2
 
 #######################
 # Run pythonocc tests #
 #######################
+RUN git clone https://github.com/tpaviot/pythonocc-core
 WORKDIR /opt/build/pythonocc-core/test
-RUN python core_wrapper_features_unittest.py
+RUN python run_tests.py
+WORKDIR /opt/build
 
 ##############################
 # Install pythonocc examples #
@@ -64,21 +50,21 @@ RUN /opt/conda/bin/pip install pythreejs
 ########
 # gmsh #
 ########
-ENV CASROOT=/opt/build/occt762
-WORKDIR /opt/build
-RUN git clone https://gitlab.onelab.info/gmsh/gmsh
-WORKDIR /opt/build/gmsh
-RUN git checkout gmsh_4_10_5
-WORKDIR /opt/build/gmsh/build
-
-RUN cmake \
- -DCMAKE_BUILD_TYPE=RelWithDebInfo \
- -DENABLE_OCC=ON \
- -DENABLE_OCC_CAF=ON \
- -DCMAKE_INSTALL_PREFIX=/usr/local \
- ..
-
-RUN make && make install
+#ENV CASROOT=/opt/build/occt762
+#WORKDIR /opt/build
+#RUN git clone https://gitlab.onelab.info/gmsh/gmsh
+#WORKDIR /opt/build/gmsh
+#RUN git checkout gmsh_4_10_5
+#WORKDIR /opt/build/gmsh/build
+#
+#RUN cmake \
+# -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+# -DENABLE_OCC=ON \
+# -DENABLE_OCC_CAF=ON \
+# -DCMAKE_INSTALL_PREFIX=/usr/local \
+# ..
+#
+#RUN make && make install
 
 ################
 # IfcOpenShell #
