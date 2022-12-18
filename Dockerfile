@@ -37,7 +37,7 @@ RUN cp -r /opt/build/pythonocc-demos/jupyter_notebooks /home/jovyan/work
 #############
 # pythreejs #
 #############
-RUN /opt/conda/bin/pip install pythreejs
+RUN /opt/conda/bin/conda install -c conda-forge pythreejs
 
 ########
 # gmsh #
