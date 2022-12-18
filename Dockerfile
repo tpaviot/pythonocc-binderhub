@@ -25,14 +25,6 @@ RUN source activate pyocc770
 RUN /opt/conda/bin/conda install conda-verify libarchive anaconda-client conda-build
 RUN /opt/conda/bin/conda install -c conda-forge pythonocc-core=7.7.0
 
-#######################
-# Run pythonocc tests #
-#######################
-RUN git clone https://github.com/tpaviot/pythonocc-core
-WORKDIR /opt/build/pythonocc-core/test
-RUN python run_tests.py
-WORKDIR /opt/build
-
 ##############################
 # Install pythonocc examples #
 ##############################
