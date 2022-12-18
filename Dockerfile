@@ -50,45 +50,12 @@ RUN /opt/conda/bin/pip install pythreejs
 ########
 # gmsh #
 ########
-#ENV CASROOT=/opt/build/occt762
-#WORKDIR /opt/build
-#RUN git clone https://gitlab.onelab.info/gmsh/gmsh
-#WORKDIR /opt/build/gmsh
-#RUN git checkout gmsh_4_10_5
-#WORKDIR /opt/build/gmsh/build
-#
-#RUN cmake \
-# -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-# -DENABLE_OCC=ON \
-# -DENABLE_OCC_CAF=ON \
-# -DCMAKE_INSTALL_PREFIX=/usr/local \
-# ..
-#
-#RUN make && make install
+RUN /opt/conda/bin/conda install -c conda-forge gmsh
 
 ################
 # IfcOpenShell #
 ################
-#WORKDIR /opt/build
-#RUN git clone https://github.com/tpaviot/IfcOpenShell
-#WORKDIR /opt/build/IfcOpenShell
-#RUN git submodule update --init --remote --recursive
-#RUN git checkout v0.7.0
-#WORKDIR /opt/build/IfcOpenShell/build
-#
-#RUN cmake \
-# -DCOLLADA_SUPPORT=OFF \
-# -DBUILD_EXAMPLES=OFF \
-# -DOCC_INCLUDE_DIR=/opt/build/occt762/include/opencascade \
-# -DOCC_LIBRARY_DIR=/opt/build/occt762/lib \
-# -DLIBXML2_INCLUDE_DIR:PATH=/usr/include/libxml2 \
-# -DLIBXML2_LIBRARIES=xml2 \
-# -DPYTHON_LIBRARY=/opt/conda/lib/libpython3.8.so \
-# -DPYTHON_INCLUDE_DIR=/opt/conda/include/python3.8 \
-# -DPYTHON_EXECUTABLE=/opt/conda/bin/python \
-# ../cmake
-#
-#RUN make && make install
+RUN /opt/conda/bin/conda install -c conda-forge ifcopenshell
 
 #####################
 # back to user mode #
