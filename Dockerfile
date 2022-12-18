@@ -47,7 +47,7 @@ RUN /opt/conda/bin/conda install -c conda-forge gmsh
 ################
 # IfcOpenShell #
 ################
-RUN /opt/conda/bin/conda install -c conda-forge ifcopenshell
+#RUN /opt/conda/bin/conda install -c conda-forge ifcopenshell
 
 #####################
 # back to user mode #
