@@ -5,7 +5,7 @@ A Docker image for testing pythonocc at mybinder.org
 
 pythonocc-master: [![Binder](http://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/tpaviot/pythonocc-binderhub/master)
 
-pythonocc-7.4.1: [![Binder](http://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/tpaviot/pythonocc-binderhub/7.4.1)
+pythonocc-7.7.0: [![Binder](http://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/tpaviot/pythonocc-binderhub/7.7.0)
 
 ### About
 
