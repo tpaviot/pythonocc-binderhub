@@ -1,4 +1,4 @@
-FROM jupyter/scipy-notebook:notebook-6.4.12
+FROM jupyter/scipy-notebook:notebook-6.5.2
 MAINTAINER Thomas Paviot <tpaviot@gmail.com>
 
 USER root
