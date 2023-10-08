@@ -1,4 +1,4 @@
-FROM jupyter/scipy-notebook:notebook-6.5.2
+FROM ubuntu:22.04
 MAINTAINER Thomas Paviot <tpaviot@gmail.com>
 
 USER root
@@ -12,42 +12,29 @@ RUN apt-get update
 RUN apt-get install -y wget libglu1-mesa-dev libgl1-mesa-dev libxmu-dev libxi-dev
 RUN dpkg-reconfigure --frontend noninteractive tzdata
 
-#########################################################
-# Install pythonocc-core 7.7.0 from conda-forge channel #
-#########################################################
-RUN ls /opt
-RUN /opt/conda/bin/conda config --set always_yes yes --set changeps1 no
-RUN /opt/conda/bin/conda update -q conda
-RUN /opt/conda/bin/conda info -a
-RUN /opt/conda/bin/conda config --add channels https://conda.anaconda.org/conda-forge
-RUN /opt/conda/bin/conda create --name=pyocc770 python=3.9
-RUN source activate pyocc770
-RUN /opt/conda/bin/conda install conda-verify libarchive anaconda-client conda-build
-RUN /opt/conda/bin/conda install -c conda-forge pythonocc-core=7.7.0
+############################################################
+# OCCT 7.7.2                                               #
+# Download the official source package from git repository #
+############################################################
+WORKDIR /opt/build
+RUN wget 'https://git.dev.opencascade.org/gitweb/?p=occt.git;a=snapshot;h=cec1ecd0c9f3b3d2572c47035d11949e8dfa85e2;sf=tgz' -O occt-7.7.2.tar.gz
+RUN tar -zxvf occt-7.7.2.tar.gz >> extracted_occt772_files.txt
+RUN mkdir occt-cec1ecd/build
+WORKDIR /opt/build/occt-cec1ecd/build
 
-##############################
-# Install pythonocc examples #
-##############################
-WORKDIR /opt/build/
-RUN git clone https://github.com/tpaviot/pythonocc-demos
-WORKDIR /opt/build/pythonocc-demos
-RUN cp -r /opt/build/pythonocc-demos/assets /home/jovyan/work
-RUN cp -r /opt/build/pythonocc-demos/jupyter_notebooks /home/jovyan/work
+RUN ls /usr/include
+RUN cmake -G Ninja \
+ -DINSTALL_DIR=/opt/build/occt772 \
+ -DBUILD_RELEASE_DISABLE_EXCEPTIONS=OFF \
+ ..
 
-#############
-# pythreejs #
-#############
-RUN /opt/conda/bin/conda install -c conda-forge pythreejs
+RUN ninja install
 
-########
-# gmsh #
-########
-RUN /opt/conda/bin/conda install -c conda-forge gmsh
+RUN echo "/opt/build/occt772/lib" >> /etc/ld.so.conf.d/occt.conf
+RUN ldconfig
 
-################
-# IfcOpenShell #
-################
-#RUN /opt/conda/bin/conda install -c conda-forge ifcopenshell
+RUN ls /opt/build/occt772
+RUN ls /opt/build/occt772/lib
 
 #####################
 # back to user mode #
