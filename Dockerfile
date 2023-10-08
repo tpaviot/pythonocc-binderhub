@@ -10,7 +10,6 @@ ENV DEBIAN_FRONTEND=noninteractive
 ##############
 RUN apt-get update
 RUN apt-get install -y wget libglu1-mesa-dev libgl1-mesa-dev libxmu-dev libxi-dev
-RUN dpkg-reconfigure --frontend noninteractive tzdata
 
 ############################################################
 # OCCT 7.7.2                                               #
