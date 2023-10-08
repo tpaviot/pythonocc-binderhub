@@ -9,7 +9,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 # apt update #
 ##############
 RUN apt-get update
-RUN apt-get install -y wget libglu1-mesa-dev libgl1-mesa-dev libxmu-dev libxi-dev
+RUN apt-get install -y libglu1-mesa-dev libgl1-mesa-dev libxmu-dev libxi-dev
+RUN apt-get install -y cmake
 
 ############################################################
 # OCCT 7.7.2                                               #
@@ -22,7 +23,7 @@ RUN mkdir occt-cec1ecd/build
 WORKDIR /opt/build/occt-cec1ecd/build
 
 RUN ls /usr/include
-RUN cmake -G Ninja \
+RUN cmake \
  -DINSTALL_DIR=/opt/build/occt772 \
  -DBUILD_RELEASE_DISABLE_EXCEPTIONS=OFF \
  ..
