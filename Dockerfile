@@ -9,7 +9,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 # apt update #
 ##############
 RUN apt-get update
-RUN apt-get install -y libglu1-mesa-dev libgl1-mesa-dev libxmu-dev libxi-dev
+RUN apt-get install -y wget libglu1-mesa-dev libgl1-mesa-dev libxmu-dev libxi-dev
 RUN apt-get install -y cmake
 
 ############################################################
@@ -28,7 +28,7 @@ RUN cmake \
  -DBUILD_RELEASE_DISABLE_EXCEPTIONS=OFF \
  ..
 
-RUN ninja install
+RUN make -j4 install
 
 RUN echo "/opt/build/occt772/lib" >> /etc/ld.so.conf.d/occt.conf
 RUN ldconfig
