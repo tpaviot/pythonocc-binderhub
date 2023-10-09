@@ -10,7 +10,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 ##############
 RUN apt-get update
 RUN apt-get install -y wget libglu1-mesa-dev libgl1-mesa-dev libxmu-dev libxi-dev
-RUN apt-get install -y build-essential cmake libfreetype6-dev tk-dev
+RUN apt-get install -y build-essential cmake libfreetype6-dev tk-dev python3-dev
 RUN apt-get install -y git
 
 ############################################################
@@ -47,8 +47,8 @@ WORKDIR /opt/build/pythonocc-core
 WORKDIR /opt/build/pythonocc-core/build
 
 RUN cmake \
- -DOCE_INCLUDE_PATH=/opt/build/occt772/include/opencascade \
- -DOCE_LIB_PATH=/opt/build/occt772/lib \
+ -DOCCT_INCLUDE_DIR=/opt/build/occt772/include/opencascade \
+ -DOCCT_LIBRARY_DIR=/opt/build/occt772/lib \
  -DPYTHONOCC_BUILD_TYPE=Release \
  ..
 
