@@ -11,7 +11,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update
 RUN apt-get install -y wget libglu1-mesa-dev libgl1-mesa-dev libxmu-dev libxi-dev
 RUN apt-get install -y build-essential cmake libfreetype6-dev tk-dev python3-dev
-RUN apt-get install -y git
+RUN apt-get install -y git swig
 
 ############################################################
 # OCCT 7.7.2                                               #
@@ -29,7 +29,7 @@ RUN cmake \
  -DBUILD_RELEASE_DISABLE_EXCEPTIONS=OFF \
  ..
 
-RUN make -j4 install
+RUN make -j8 install
 
 RUN echo "/opt/build/occt772/lib" >> /etc/ld.so.conf.d/occt.conf
 RUN ldconfig
