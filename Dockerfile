@@ -18,9 +18,11 @@ RUN apt-get install -y git swig
 ##############
 # swig-4.1.1 is required, but not available on ubuntu ppa,
 # we have to download/build/install
+WORKDIR /opt/build
 RUN wget http://prdownloads.sourceforge.net/swig/swig-4.1.1.tar.gz
 RUN tar -zxvf swig-4.1.1.tar.gz
-RUN ls
+WORKDIR /opt/build/swig-4.1.1
+RUN make -j8 install
 
 ############################################################
 # OCCT 7.7.2                                               #
