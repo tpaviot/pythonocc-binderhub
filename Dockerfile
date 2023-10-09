@@ -13,6 +13,15 @@ RUN apt-get install -y wget libglu1-mesa-dev libgl1-mesa-dev libxmu-dev libxi-de
 RUN apt-get install -y build-essential cmake libfreetype6-dev tk-dev python3-dev
 RUN apt-get install -y git swig
 
+##############
+# SWIG 4.1.1 #
+##############
+# swig-4.1.1 is required, but not available on ubuntu ppa,
+# we have to download/build/install
+RUN wget http://prdownloads.sourceforge.net/swig/swig-4.1.1.tar.gz
+RUN tar -zxvf swig-4.1.1.tar.gz
+RUN ls
+
 ############################################################
 # OCCT 7.7.2                                               #
 # Download the official source package from git repository #
