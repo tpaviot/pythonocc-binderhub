@@ -22,7 +22,8 @@ WORKDIR /opt/build
 RUN wget http://prdownloads.sourceforge.net/swig/swig-4.1.1.tar.gz
 RUN tar -zxvf swig-4.1.1.tar.gz
 WORKDIR /opt/build/swig-4.1.1
-RUN ./configure && make -j8 && make install
+RUN ls
+RUN sh configure && make -j8 && make install
 
 ############################################################
 # OCCT 7.7.2                                               #
