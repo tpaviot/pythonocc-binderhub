@@ -11,7 +11,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update
 RUN apt-get install -y wget libglu1-mesa-dev libgl1-mesa-dev libxmu-dev libxi-dev
 RUN apt-get install -y build-essential cmake libfreetype6-dev tk-dev python3-dev
-RUN apt-get install -y git swig
+RUN apt-get install -y git
 
 ##############
 # SWIG 4.1.1 #
