@@ -18,11 +18,11 @@ RUN apt-get install -y git swig
 ##############
 # swig-4.1.1 is required, but not available on ubuntu ppa,
 # we have to download/build/install
+RUN apt-get install -y libpcre2-dev
 WORKDIR /opt/build
 RUN wget http://prdownloads.sourceforge.net/swig/swig-4.1.1.tar.gz
 RUN tar -zxvf swig-4.1.1.tar.gz
 WORKDIR /opt/build/swig-4.1.1
-RUN ls
 RUN sh configure && make -j8 && make install
 
 ############################################################
