@@ -36,6 +36,34 @@ RUN ldconfig
 RUN ls /opt/build/occt772
 RUN ls /opt/build/occt772/lib
 
+#############
+# pythonocc #
+#############
+WORKDIR /opt/build
+RUN git clone https://github.com/tpaviot/pythonocc-core
+WORKDIR /opt/build/pythonocc-core
+#RUN git checkout review/occt762
+WORKDIR /opt/build/pythonocc-core/build
+
+RUN cmake \
+ -DOCE_INCLUDE_PATH=/opt/build/occt772/include/opencascade \
+ -DOCE_LIB_PATH=/opt/build/occt772/lib \
+ -DPYTHONOCC_BUILD_TYPE=Release \
+ ..
+
+RUN make -j3 && make install 
+
+############
+# svgwrite #
+############
+RUN pip install svgwrite
+
+#######################
+# Run pythonocc tests #
+#######################
+WORKDIR /opt/build/pythonocc-core/test
+RUN python core_wrapper_features_unittest.py
+
 #####################
 # back to user mode #
 #####################
