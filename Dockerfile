@@ -22,7 +22,7 @@ WORKDIR /opt/build
 RUN wget http://prdownloads.sourceforge.net/swig/swig-4.1.1.tar.gz
 RUN tar -zxvf swig-4.1.1.tar.gz
 WORKDIR /opt/build/swig-4.1.1
-RUN make -j8 install
+RUN ./configure && make -j8 && make install
 
 ############################################################
 # OCCT 7.7.2                                               #
@@ -40,7 +40,7 @@ RUN cmake \
  -DBUILD_RELEASE_DISABLE_EXCEPTIONS=OFF \
  ..
 
-RUN make -j8 install
+RUN make -j8 && make install
 
 RUN echo "/opt/build/occt772/lib" >> /etc/ld.so.conf.d/occt.conf
 RUN ldconfig
