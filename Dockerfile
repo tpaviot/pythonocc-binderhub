@@ -64,7 +64,7 @@ RUN cmake \
  -DPYTHONOCC_BUILD_TYPE=Release \
  ..
 
-RUN make -j8 && make install 
+RUN make -j4 && make install 
 
 ############
 # svgwrite #
