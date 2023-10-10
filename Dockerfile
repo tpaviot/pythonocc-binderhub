@@ -11,7 +11,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update
 RUN apt-get install -y wget libglu1-mesa-dev libgl1-mesa-dev libxmu-dev libxi-dev
 RUN apt-get install -y build-essential cmake libfreetype6-dev tk-dev python3-dev rapidjson-dev
-RUN apt-get install -y git python3-pip
+RUN apt-get install -y python3 git python3-pip
 
 ##############
 # SWIG 4.1.1 #
@@ -64,7 +64,7 @@ RUN cmake \
  -DPYTHONOCC_BUILD_TYPE=Release \
  ..
 
-RUN make -j3 && make install 
+RUN make -j8 && make install 
 
 ############
 # svgwrite #
@@ -75,7 +75,7 @@ RUN pip install svgwrite
 # Run pythonocc tests #
 #######################
 WORKDIR /opt/build/pythonocc-core/test
-RUN python core_wrapper_features_unittest.py
+RUN python3 core_wrapper_features_unittest.py
 
 #####################
 # back to user mode #
