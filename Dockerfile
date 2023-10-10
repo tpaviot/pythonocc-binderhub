@@ -11,7 +11,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update
 RUN apt-get install -y wget libglu1-mesa-dev libgl1-mesa-dev libxmu-dev libxi-dev
 RUN apt-get install -y build-essential cmake libfreetype6-dev tk-dev python3-dev rapidjson-dev
-RUN apt-get install -y git
+RUN apt-get install -y git python3-pip
 
 ##############
 # SWIG 4.1.1 #
@@ -69,7 +69,7 @@ RUN make -j3 && make install
 ############
 # svgwrite #
 ############
-RUN pip3 install svgwrite
+RUN pip install svgwrite
 
 #######################
 # Run pythonocc tests #
