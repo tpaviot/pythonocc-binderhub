@@ -54,8 +54,6 @@ RUN ls /opt/build/occt772/lib
 #############
 WORKDIR /opt/build
 RUN git clone https://github.com/tpaviot/pythonocc-core
-WORKDIR /opt/build/pythonocc-core
-#RUN git checkout review/occt762
 WORKDIR /opt/build/pythonocc-core/build
 
 RUN cmake \
@@ -75,7 +73,7 @@ RUN pip install svgwrite
 # Run pythonocc tests #
 #######################
 WORKDIR /opt/build/pythonocc-core/test
-RUN python3 core_wrapper_features_unittest.py
+RUN python core_wrapper_features_unittest.py
 
 #####################
 # back to user mode #
