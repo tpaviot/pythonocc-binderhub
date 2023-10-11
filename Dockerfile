@@ -73,7 +73,7 @@ RUN pip install svgwrite
 # Run pythonocc tests #
 #######################
 WORKDIR /opt/build/pythonocc-core/test
-RUN python core_wrapper_features_unittest.py
+RUN python3 core_wrapper_features_unittest.py
 
 #####################
 # back to user mode #
