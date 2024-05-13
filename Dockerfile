@@ -19,46 +19,46 @@ RUN apt-get install -y python3 git python3-pip
 # swig-4.1.1 is required, but not available on ubuntu ppa,
 # we have to download/build/install
 RUN apt-get install -y libpcre2-dev
-WORKDIR /opt/build
+WORKDIR /opt/
 RUN wget http://prdownloads.sourceforge.net/swig/swig-4.1.1.tar.gz
 RUN tar -zxvf swig-4.1.1.tar.gz
-WORKDIR /opt/build/swig-4.1.1
+WORKDIR /opt/swig-4.1.1
 RUN sh configure && make -j8 && make install
 
 ############################################################
-# OCCT 7.7.2                                               #
+# OCCT 7.8.1                                               #
 # Download the official source package from git repository #
 ############################################################
 WORKDIR /opt/build
-RUN wget 'https://git.dev.opencascade.org/gitweb/?p=occt.git;a=snapshot;h=cec1ecd0c9f3b3d2572c47035d11949e8dfa85e2;sf=tgz' -O occt-7.7.2.tar.gz
-RUN tar -zxvf occt-7.7.2.tar.gz >> extracted_occt772_files.txt
-RUN mkdir occt-cec1ecd/build
-WORKDIR /opt/build/occt-cec1ecd/build
+RUN wget 'https://git.dev.opencascade.org/gitweb/?p=occt.git;a=snapshot;h=bd2a789f15235755ce4d1a3b07379a2e062fdc2e;sf=tgz' -O occt-7.8.1.tar.gz
+RUN tar -zxvf occt-7.8.1.tar.gz >> extracted_occt781_files.txt
+RUN mkdir occt-bd2a789/build
+WORKDIR /opt/build/occt-bd2a789/build
 
 RUN ls /usr/include
 RUN cmake \
- -DINSTALL_DIR=/opt/build/occt772 \
+ -DINSTALL_DIR=/opt/occt781 \
  -DBUILD_RELEASE_DISABLE_EXCEPTIONS=OFF \
  ..
 
 RUN make -j8 && make install
 
-RUN echo "/opt/build/occt772/lib" >> /etc/ld.so.conf.d/occt.conf
+RUN echo "/opt/occt781/lib" >> /etc/ld.so.conf.d/occt.conf
 RUN ldconfig
 
-RUN ls /opt/build/occt772
-RUN ls /opt/build/occt772/lib
+RUN ls /opt/occt781
+RUN ls /opt/occt781/lib
 
 #############
 # pythonocc #
 #############
-WORKDIR /opt/build
+WORKDIR /opt/
 RUN git clone https://github.com/tpaviot/pythonocc-core
-WORKDIR /opt/build/pythonocc-core/build
+WORKDIR /opt/pythonocc-core/build
 
 RUN cmake \
- -DOCCT_INCLUDE_DIR=/opt/build/occt772/include/opencascade \
- -DOCCT_LIBRARY_DIR=/opt/build/occt772/lib \
+ -DOCCT_INCLUDE_DIR=/opt/occt781/include/opencascade \
+ -DOCCT_LIBRARY_DIR=/opt/occt781/lib \
  -DPYTHONOCC_BUILD_TYPE=Release \
  ..
 
@@ -72,7 +72,7 @@ RUN pip install svgwrite
 #######################
 # Run pythonocc tests #
 #######################
-WORKDIR /opt/build/pythonocc-core/test
+WORKDIR /opt/pythonocc-core/test
 RUN python3 core_wrapper_features_unittest.py
 
 #####################
