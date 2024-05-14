@@ -70,7 +70,7 @@ RUN make -j4 && make install
 ############
 # svgwrite #
 ############
-RUN pip install svgwrite
+RUN pip install svgwrite six
 
 #######################
 # Run pythonocc tests #
