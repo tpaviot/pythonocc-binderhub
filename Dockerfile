@@ -61,6 +61,7 @@ WORKDIR /opt/pythonocc-core/build
 RUN cmake \
  -DOCCT_INCLUDE_DIR=/opt/occt781/include/opencascade \
  -DOCCT_LIBRARY_DIR=/opt/occt781/lib \
+ -DPYTHONOCC_INSTALL_DIRECTORY=/usr/lib/python3/dist-packages/OCC \
  -DPYTHONOCC_BUILD_TYPE=Release \
  ..
 
