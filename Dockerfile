@@ -39,9 +39,11 @@ WORKDIR /opt/build/occt-bd2a789/build
 
 RUN ls /usr/include
 RUN cmake \
- -DINSTALL_DIR=/opt/occt781 \
- -DBUILD_RELEASE_DISABLE_EXCEPTIONS:BOOL=OFF \
- -DCMAKE_BUILD_TYPE:STRING="Release" \
+ -D INSTALL_DIR=/opt/occt781 \
+ -D BUILD_RELEASE_DISABLE_EXCEPTIONS:BOOL=OFF \
+ -D CMAKE_BUILD_TYPE:STRING="Release" \
+ -D USE_FREEIMAGE:BOOL=ON \
+ -D USE_RAPIDJSON:BOOL=ON \
  ..
 
 RUN make -j8 && make install
@@ -60,10 +62,10 @@ RUN git clone https://github.com/tpaviot/pythonocc-core
 WORKDIR /opt/pythonocc-core/build
 
 RUN cmake \
- -DOCCT_INCLUDE_DIR=/opt/occt781/include/opencascade \
- -DOCCT_LIBRARY_DIR=/opt/occt781/lib \
- -DPYTHONOCC_INSTALL_DIRECTORY=/usr/lib/python3/dist-packages/OCC \
- -DCMAKE_BUILD_TYPE=Release \
+ -D OCCT_INCLUDE_DIR=/opt/occt781/include/opencascade \
+ -D OCCT_LIBRARY_DIR=/opt/occt781/lib \
+ -D PYTHONOCC_INSTALL_DIRECTORY=/usr/lib/python3/dist-packages/OCC \
+ -D CMAKE_BUILD_TYPE=Release \
  ..
 
 RUN make -j4 && make install 
