@@ -76,7 +76,7 @@ RUN pip install svgwrite six
 #######################
 # Run pythonocc tests #
 #######################
-RUN pip install pytest
+RUN pip install pytest numpy
 WORKDIR /opt/pythonocc-core/test
 RUN pytest
 
