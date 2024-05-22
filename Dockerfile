@@ -16,15 +16,15 @@ RUN apt-get install -y python3 git python3-pip
 RUN python3 -c "import sys; print(sys.path)"
 
 ##############
-# SWIG 4.1.1 #
+# SWIG 4.2.1 #
 ##############
-# swig-4.1.1 is required, but not available on ubuntu ppa,
+# swig-4.2.1 is required, but not available on ubuntu ppa,
 # we have to download/build/install
 RUN apt-get install -y libpcre2-dev
 WORKDIR /opt/
-RUN wget http://prdownloads.sourceforge.net/swig/swig-4.1.1.tar.gz
-RUN tar -zxvf swig-4.1.1.tar.gz
-WORKDIR /opt/swig-4.1.1
+RUN wget http://prdownloads.sourceforge.net/swig/swig-4.2.1.tar.gz
+RUN tar -zxvf swig-4.2.1.tar.gz
+WORKDIR /opt/swig-4.2.1
 RUN sh configure && make -j8 && make install
 
 ############################################################
