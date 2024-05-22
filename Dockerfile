@@ -40,7 +40,8 @@ WORKDIR /opt/build/occt-bd2a789/build
 RUN ls /usr/include
 RUN cmake \
  -DINSTALL_DIR=/opt/occt781 \
- -DBUILD_RELEASE_DISABLE_EXCEPTIONS=OFF \
+ -DBUILD_RELEASE_DISABLE_EXCEPTIONS:BOOL=OFF \
+ -DCMAKE_BUILD_TYPE:STRING="Release" \
  ..
 
 RUN make -j8 && make install
@@ -62,21 +63,22 @@ RUN cmake \
  -DOCCT_INCLUDE_DIR=/opt/occt781/include/opencascade \
  -DOCCT_LIBRARY_DIR=/opt/occt781/lib \
  -DPYTHONOCC_INSTALL_DIRECTORY=/usr/lib/python3/dist-packages/OCC \
- -DPYTHONOCC_BUILD_TYPE=Release \
+ -DCMAKE_BUILD_TYPE=Release \
  ..
 
 RUN make -j4 && make install 
 
-############
-# svgwrite #
-############
+################################################
+# six, required dependency, svg write optional #
+################################################
 RUN pip install svgwrite six
 
 #######################
 # Run pythonocc tests #
 #######################
+RUN pip install pytest
 WORKDIR /opt/pythonocc-core/test
-RUN python3 core_wrapper_features_unittest.py
+RUN pytest
 
 #####################
 # back to user mode #
