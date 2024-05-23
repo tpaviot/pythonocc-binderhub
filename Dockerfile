@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM jupyter/scipy-notebook:latest
 MAINTAINER Thomas Paviot <tpaviot@gmail.com>
 
 USER root
