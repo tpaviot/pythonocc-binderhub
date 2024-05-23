@@ -65,6 +65,7 @@ RUN cmake \
  -D OCCT_INCLUDE_DIR=/opt/occt781/include/opencascade \
  -D OCCT_LIBRARY_DIR=/opt/occt781/lib \
  -D PYTHONOCC_INSTALL_DIRECTORY=/usr/lib/python3/dist-packages/OCC \
+ -D PYTHONOCC_MESHDS_NUMPY:BOOL=ON \
  -D CMAKE_BUILD_TYPE=Release \
  ..
 
