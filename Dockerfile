@@ -38,7 +38,7 @@ RUN /opt/conda/bin/conda install -c conda-forge pythreejs
 ########
 # gmsh #
 ########
-RUN /opt/conda/bin/conda install -c conda-forge gmsh
+#RUN /opt/conda/bin/conda install -c conda-forge gmsh
 
 ################
 # IfcOpenShell #
