@@ -1,4 +1,4 @@
-FROM jupyter/scipy-notebook:notebook-6.5.2
+FROM jupyter/scipy-notebook:latest
 MAINTAINER Thomas Paviot <tpaviot@gmail.com>
 
 USER root
@@ -13,14 +13,14 @@ RUN apt-get install -y wget libglu1-mesa-dev libgl1-mesa-dev libxmu-dev libxi-de
 RUN dpkg-reconfigure --frontend noninteractive tzdata
 
 #########################################################
-# Install pythonocc-core 7.7.2 from conda-forge channel #
+# Install pythonocc-core 7.8.1 from conda-forge channel #
 #########################################################
 RUN ls /opt
 RUN /opt/conda/bin/conda config --set always_yes yes --set changeps1 no
 RUN /opt/conda/bin/conda update -q conda
 RUN /opt/conda/bin/conda info -a
 RUN /opt/conda/bin/conda config --add channels https://conda.anaconda.org/conda-forge
-RUN /opt/conda/bin/conda install -c conda-forge pythonocc-core=7.7.2
+RUN /opt/conda/bin/conda install -c conda-forge pythonocc-core=7.8.1
 
 ##############################
 # Install pythonocc examples #
