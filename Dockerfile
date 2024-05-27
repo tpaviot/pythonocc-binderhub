@@ -17,7 +17,6 @@ RUN dpkg-reconfigure --frontend noninteractive tzdata
 #########################################################
 RUN ls /opt
 RUN /opt/conda/bin/conda config --set always_yes yes --set changeps1 no
-RUN /opt/conda/bin/conda update -q conda
 RUN /opt/conda/bin/conda info -a
 RUN /opt/conda/bin/conda config --add channels https://conda.anaconda.org/conda-forge
 RUN /opt/conda/bin/conda install -c conda-forge pythonocc-core=7.8.1
