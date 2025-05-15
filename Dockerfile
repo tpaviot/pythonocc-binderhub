@@ -13,13 +13,13 @@ RUN apt-get install -y wget libglu1-mesa-dev libgl1-mesa-dev libxmu-dev libxi-de
 RUN dpkg-reconfigure --frontend noninteractive tzdata
 
 #########################################################
-# Install pythonocc-core 7.8.1 from conda-forge channel #
+# Install pythonocc-core 7.9.0 from conda-forge channel #
 #########################################################
 RUN ls /opt
 RUN /opt/conda/bin/conda config --set always_yes yes --set changeps1 no
 RUN /opt/conda/bin/conda info -a
 RUN /opt/conda/bin/conda config --add channels https://conda.anaconda.org/conda-forge
-RUN /opt/conda/bin/conda install -c conda-forge pythonocc-core=7.8.1
+RUN /opt/conda/bin/conda install -c conda-forge pythonocc-core=7.9.0
 
 ##############################
 # Install pythonocc examples #
