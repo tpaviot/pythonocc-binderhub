@@ -1,5 +1,7 @@
-FROM jupyter/scipy-notebook:latest
-MAINTAINER Thomas Paviot <tpaviot@gmail.com>
+# The Docker Hub jupyter/* images are frozen since October 2023,
+# the maintained images live on quay.io
+FROM quay.io/jupyter/scipy-notebook:latest
+LABEL maintainer="Thomas Paviot <tpaviot@gmail.com>"
 
 USER root
 
@@ -8,42 +10,38 @@ ENV DEBIAN_FRONTEND=noninteractive
 ##############
 # apt update #
 ##############
-RUN apt-get update
-RUN apt-get install -y wget libglu1-mesa-dev libgl1-mesa-dev libxmu-dev libxi-dev
-RUN dpkg-reconfigure --frontend noninteractive tzdata
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends git wget libglu1-mesa-dev libgl1-mesa-dev libxmu-dev libxi-dev && \
+    rm -rf /var/lib/apt/lists/*
 
-#########################################################
-# Install pythonocc-core 7.9.0 from conda-forge channel #
-#########################################################
-RUN ls /opt
-RUN /opt/conda/bin/conda config --set always_yes yes --set changeps1 no
-RUN /opt/conda/bin/conda info -a
-RUN /opt/conda/bin/conda config --add channels https://conda.anaconda.org/conda-forge
-RUN /opt/conda/bin/conda install -c conda-forge pythonocc-core=7.9.0
+#############################################################################
+# Install pythonocc-core 8.0.1 and the notebook dependencies from conda-forge #
+#############################################################################
+# pythreejs: jupyter renderer
+# gmsh: triangle_mesh_gmsh notebook
+# ifcopenshell: ifc_display_basic_file notebook (built against occt 8.0.1)
+RUN /opt/conda/bin/mamba install -y -c conda-forge \
+        pythonocc-core=8.0.1 \
+        pythreejs \
+        gmsh \
+        ifcopenshell && \
+    /opt/conda/bin/mamba clean -afy
 
-##############################
-# Install pythonocc examples #
-##############################
+# The jupyter renderer shipped with pythonocc-core 8.0.1 has a broken
+# BoundingBox (fixed upstream in pythonocc-core commit 25e83320, after the
+# 8.0.1 release). Until 8.0.2 is out, replace it with the master version.
+RUN wget -q -O "$(/opt/conda/bin/python -c 'import OCC.Display.WebGl as m, os; print(os.path.dirname(m.__file__))')/jupyter_renderer.py" \
+    https://raw.githubusercontent.com/tpaviot/pythonocc-core/master/src/Display/WebGl/jupyter_renderer.py
+
+####################################
+# Install pythonocc examples 8.0.1 #
+####################################
 WORKDIR /opt/build/
-RUN git clone https://github.com/tpaviot/pythonocc-demos
+RUN git clone --branch 8.0.1 --depth 1 https://github.com/tpaviot/pythonocc-demos
 WORKDIR /opt/build/pythonocc-demos
-RUN cp -r /opt/build/pythonocc-demos/assets /home/jovyan/work
-RUN cp -r /opt/build/pythonocc-demos/jupyter_notebooks /home/jovyan/work
-
-#############
-# pythreejs #
-#############
-RUN /opt/conda/bin/conda install -c conda-forge pythreejs
-
-########
-# gmsh #
-########
-#RUN /opt/conda/bin/conda install -c conda-forge gmsh
-
-################
-# IfcOpenShell #
-################
-#RUN /opt/conda/bin/conda install -c conda-forge ifcopenshell
+RUN cp -r /opt/build/pythonocc-demos/assets /home/jovyan/work && \
+    cp -r /opt/build/pythonocc-demos/jupyter_notebooks /home/jovyan/work && \
+    chown -R jovyan:users /home/jovyan/work
 
 #####################
 # back to user mode #
