@@ -4,7 +4,7 @@ Run pythonocc at mybinder.org
 ### Available images
 
 #### Latest release
-pythonocc-8.0.1 [![Binder](http://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/tpaviot/pythonocc-binderhub/8.0.1)
+pythonocc-8.0.1.1 [![Binder](http://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/tpaviot/pythonocc-binderhub/8.0.1.1)
 
 #### Previous releases
 pythonocc-7.9.0 [![Binder](http://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/tpaviot/pythonocc-binderhub/7.9.0)
